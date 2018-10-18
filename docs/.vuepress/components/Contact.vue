@@ -15,6 +15,7 @@ export default {
 
   computed: {
     contacts() {
+      console.log(this.$page.frontmatter)
       return this.$page.frontmatter.contacts;
     }
   },

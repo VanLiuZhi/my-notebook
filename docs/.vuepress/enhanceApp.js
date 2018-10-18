@@ -4,11 +4,21 @@ import Element from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 
 // 代码高亮
-import VueHighlightJS from 'vue-highlight.js';
-// import 'highlight.js/styles/atom-one-dark.css';
-import 'highlight.js/styles/agate.css'
+import VueHighlightJS from 'vue-highlight.js'
+import 'highlight.js/styles/monokai-sublime.css'
+// import 'highlight.js/styles/agate.css'
 
 const helper = require('./../helper/')
+
+// 指令形式
+// import 'highlight.js/styles/agate.css'
+// import 'highlight.js'
+// Vue.directive('highlight', function (el) {
+//   let blocks = el.querySelectorAll('pre code');
+//   blocks.forEach((block) => {
+//     hljs.highlightBlock(block)
+//   })
+// })
 
 export default ({
   Vue, // VuePress 正在使用的 Vue 构造函数

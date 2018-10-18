@@ -34,13 +34,17 @@ module.exports = {
           text: '文章',
           link: '/zh/article/'
         },
+        // {
+        //   text: '笔记',
+        //   link: '/zh/python/'
+        // },
         {
           text: '应用',
           link: '/zh/application/'
         },
         {
           text: '招聘',
-          link: '/zh/recruit/'
+          link: '/zh/MongoDB/'
         }
       ],
       sidebar: {

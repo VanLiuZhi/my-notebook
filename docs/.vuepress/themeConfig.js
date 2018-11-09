@@ -1,7 +1,7 @@
 const helper = require('./../helper/')
 
 module.exports = {
-  repo: 'nicejade/vuepress-web-app',
+  repo: 'VanLiuZhi/my-notebook',
   editLinks: false,
   docsDir: './dist',
   // Algolia 搜索服务
@@ -11,15 +11,15 @@ module.exports = {
   //   inputSelector: '',
   //   debug: false
   // },
-  comment: {
-    clientID: '047582532241759ff101',
-    clientSecret: 'fd8193330fb5748ccaec4d97b7495d7d7e175021',
-    repo: 'vuepress-web-app',
-    owner: 'nicejade',
-    admin: ['nicejade'],
-    perPage: 5,
-    distractionFreeMode: false  // Facebook-like distraction free mode
-  },
+  // comment: {
+  //   clientID: '047582532241759ff101',
+  //   clientSecret: 'fd8193330fb5748ccaec4d97b7495d7d7e175021',
+  //   repo: 'vuepress-web-app',
+  //   owner: 'nicejade',
+  //   admin: ['nicejade'],
+  //   perPage: 5,
+  //   distractionFreeMode: false  // Facebook-like distraction free mode
+  // },
   locales: {
     '/': {
       label: '简体中文',
@@ -28,25 +28,21 @@ module.exports = {
       lastUpdated: '上次更新',
       nav: [
         {
-          text: '博客',
+          text: '文章',
           link: '/zh/blog/',
         },
         {
-          text: '文章',
+          text: '笔记',
           link: '/zh/article/'
         },
         {
-          text: '应用',
-          link: '/zh/application/'
-        },
-        {
-          text: '招聘',
-          link: '/zh/MongoDB/'
+          text: '收藏',
+          link: '/zh/Collect/'
         }
       ],
       sidebar: {
-        '/zh/blog/': helper.utils.genSidebarConfig('轩帅の博客', './docs/zh/blog/', false),
-        '/zh/article/': helper.utils.genSidebarConfig('最新文章', './docs/zh/article/', false)
+        '/zh/blog/': helper.utils.genSidebarConfig('我的文章', './docs/zh/blog/', false),
+        '/zh/article/': helper.utils.genSidebarConfig('我的笔记', './docs/zh/article/', false),
       }
     },
     // '/en/': {

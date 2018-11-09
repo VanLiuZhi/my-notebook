@@ -4,12 +4,13 @@ module.exports = {
   repo: 'nicejade/vuepress-web-app',
   editLinks: false,
   docsDir: './dist',
-  algolia: {
-    apiKey: '6290673b2059b2332d64c13d248877ad',
-    indexName: 'lovejade',
-    inputSelector: '',
-    debug: false
-  },
+  // Algolia 搜索服务
+  // algolia: {
+  //   apiKey: '6290673b2059b2332d64c13d248877ad',
+  //   indexName: 'lovejade',
+  //   inputSelector: '',
+  //   debug: false
+  // },
   comment: {
     clientID: '047582532241759ff101',
     clientSecret: 'fd8193330fb5748ccaec4d97b7495d7d7e175021',
@@ -34,10 +35,6 @@ module.exports = {
           text: '文章',
           link: '/zh/article/'
         },
-        // {
-        //   text: '笔记',
-        //   link: '/zh/python/'
-        // },
         {
           text: '应用',
           link: '/zh/application/'
@@ -52,17 +49,17 @@ module.exports = {
         '/zh/article/': helper.utils.genSidebarConfig('最新文章', './docs/zh/article/', false)
       }
     },
-    '/en/': {
-      label: 'English',
-      selectText: 'Languages',
-      editLinkText: 'Edit this page on GitHub',
-      lastUpdated: 'Last Updated',
-      nav: [
-        {
-          text: 'Application',
-          link: '/en/application/'
-        }
-      ]
-    }
+    // '/en/': {
+    //   label: 'English',
+    //   selectText: 'Languages',
+    //   editLinkText: 'Edit this page on GitHub',
+    //   lastUpdated: 'Last Updated',
+    //   nav: [
+    //     {
+    //       text: 'Application',
+    //       link: '/en/application/'
+    //     }
+    //   ]
+    // }
   }
 }

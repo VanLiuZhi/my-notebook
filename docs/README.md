@@ -1,6 +1,6 @@
 ---
 home: true
-heroImage: /love.svg
+heroImage: /icons/liuzhi3.png
 contacts:
   - href: //nicelinks.site
     desc: 倾城

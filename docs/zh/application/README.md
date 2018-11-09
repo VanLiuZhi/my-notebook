@@ -1,5 +1,5 @@
 ---
-sidebar: false
+sidebar: auto
 ---
 
 ## [「倾城之链」](https://nicelinks.site/?from=nice.lovejade.cn)

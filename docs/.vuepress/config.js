@@ -30,17 +30,17 @@ module.exports = {
         }
       }
     },
-    '/en/': {
-      lang: 'en-US',
-      title: 'LOVE JADE HOME',
-      description: 'Wherever you go， whatever you do， I will be right here waiting for you.',
-      serviceWorker: {
-        updatePopup: {
-          message: "🎉 New Content Is Available. ✏️",
-          buttonText: "Refresh"
-        }
-      }
-    }
+    // '/en/': {
+    //   lang: 'en-US',
+    //   title: 'LOVE JADE HOME',
+    //   description: 'Wherever you go， whatever you do， I will be right here waiting for you.',
+    //   serviceWorker: {
+    //     updatePopup: {
+    //       message: "🎉 New Content Is Available. ✏️",
+    //       buttonText: "Refresh"
+    //     }
+    //   }
+    // }
   },
   configureWebpack: buildConfig.configureWebpack,
   themeConfig,

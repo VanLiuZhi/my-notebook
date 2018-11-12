@@ -1,4 +1,4 @@
-const helper = require('./../helper/')
+// const helper = require('./../helper/')
 
 module.exports = {
   repo: 'VanLiuZhi/my-notebook',
@@ -32,8 +32,13 @@ module.exports = {
           link: '/zh/blog/',
         },
         {
-          text: '笔记',
-          link: '/zh/article/'
+          text: '笔记', items: [
+            { text: 'Python', link: '/zh/python/' },
+            { text: 'Linux', link: '/zh/Linux/' },
+            { text: 'JavaScript', link: '/zh/JavaScript/' },
+            { text: 'Docker', link: '/zh/Docker/' },
+            { text: 'Locust', link: '/zh/Locust/' },
+          ]
         },
         {
           text: '收藏',
@@ -41,8 +46,7 @@ module.exports = {
         }
       ],
       sidebar: {
-        '/zh/blog/': helper.utils.genSidebarConfig('我的文章', './docs/zh/blog/', false),
-        '/zh/article/': helper.utils.genSidebarConfig('我的笔记', './docs/zh/article/', false),
+        '/zh/python/': ['collections', 'one', 'two']
       }
     },
     // '/en/': {

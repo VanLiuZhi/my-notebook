@@ -17,6 +17,7 @@ export default {
 
   computed: {
     frontmatter () {
+      console.log(this.$page)
       return this.$page.frontmatter
     }
   },

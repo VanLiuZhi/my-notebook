@@ -30,5 +30,5 @@ export default ({
 
   Vue.use(Element)
   Vue.use(VueHighlightJS)
-  helper.utils.rearrangeTheSidebars(siteData)
+  // helper.utils.rearrangeTheSidebars(siteData)
 }

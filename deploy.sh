@@ -22,3 +22,5 @@ git commit -m 'deploy update 🎉'
 # 如果发布到 https://<USERNAME>.github.io/<REPO>
 git push -f https://github.com/nicejade/vuepress-web-app.git master:gh-pages
 cd -
+
+git push -f git@github.com:VanLiuZhi/my-notebook.git master:gh-pages

@@ -2,7 +2,7 @@ const themeConfig = require('./themeConfig')
 const buildConfig = require('./buildConfig')
 
 module.exports = {
-  base: "/",
+  base: "/my-notebook/",
   // 存放“生成静态的 HTML 文件”路径;
   dest: './docs/dist',
    head: [

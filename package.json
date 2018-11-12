@@ -35,7 +35,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "yarn run precommit-msg && lint-staged"
+      "pre-commit": ""
     }
   },
   "lint-staged": {

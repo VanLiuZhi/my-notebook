@@ -12,3 +12,4 @@ vuepress还是一个不错的项目，不过官方的例子太少了，对于一
 文档：[代码高亮扩展 vue-highlight.js](https://www.npmjs.com/package/vue-highlight.js)
 
 虽然vuepress说明了代码的高亮是用了highlight，不过要修改配置似乎不是这么简单，这里使用vue-highlight，然后去封装组件，这样就可以自定义很多了，比如修改渲染样式。
+### 如果要使用自定义代码高亮组件，最好在全局安装模块，不然build会出问题。

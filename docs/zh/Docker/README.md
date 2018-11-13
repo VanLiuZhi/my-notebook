@@ -5,7 +5,7 @@ collapsable: false,
 
 # Docker 笔记
 ---
-![image](/img/docker/docker.png)
+![image](/my-notebook/images/docker/docker.png)
 
 ## 容器连接
 容器连接就是把容器接到一起，让它们可以相互通信，如果你使用一个容器运行一个软件的方式，容器连接就是很有必要的，比如你的服务和数据库进行通信，那么你的容器就要连接在一起。

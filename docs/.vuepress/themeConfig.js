@@ -31,23 +31,65 @@ module.exports = {
           text: '文章',
           link: '/zh/blog/',
         },
+        // {
+        //   text: '笔记', items: [
+        //     { text: 'Python', link: '/zh/python/' },
+        //     { text: 'Linux', link: '/zh/Linux/' },
+        //     { text: 'JavaScript', link: '/zh/JavaScript/' },
+        //     { text: 'Docker', link: '/zh/Docker/' },
+        //     { text: 'Locust', link: '/zh/Locust/' },
+        //   ]
+        // },
         {
-          text: '笔记', items: [
-            { text: 'Python', link: '/zh/python/' },
-            { text: 'Linux', link: '/zh/Linux/' },
-            { text: 'JavaScript', link: '/zh/JavaScript/' },
-            { text: 'Docker', link: '/zh/Docker/' },
-            { text: 'Locust', link: '/zh/Locust/' },
-          ]
+          text: '笔记',
+          link: '/zh/Index/'
         },
         {
           text: '收藏',
           link: '/zh/Collect/'
         }
       ],
-      sidebar: {
-        '/zh/python/': ['collections', 'one', 'two']
-      }
+      // sidebar: {
+      //   '/zh/python/': ['collections', 'one', 'two'],
+      //   '/zh/Linux/': ['linux-command', 'linux-shell']
+      // }
+      sidebar: [
+        {
+          title: 'Linux',
+          collapsable: true,
+          children: [
+            '/zh/Linux/linux-command', '/zh/Linux/linux-shell'
+          ]
+        },
+        {
+          title: 'Python',
+          collapsable: true,
+          children: [
+            '/zh/Python/collections', '/zh/Python-asyncio/'
+          ]
+        },
+        {
+          title: 'JavaScript',
+          collapsable: true,
+          children: [
+            '/zh/Python/collections', '/zh/Python-asyncio/'
+          ]
+        },
+        {
+          title: 'Docker',
+          collapsable: true,
+          children: [
+            '/zh/Docker/'
+          ]
+        },
+        {
+          title: 'MongoDB',
+          collapsable: true,
+          children: [
+            '/zh/MongoDB/', '/zh/MongoDB/MongoEngine'
+          ]
+        }
+      ]
     },
     // '/en/': {
     //   label: 'English',

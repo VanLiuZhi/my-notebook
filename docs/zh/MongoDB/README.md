@@ -3,7 +3,7 @@ sidebar: auto
 ---
 
 # MongoDB
-![image](/images/mongodb/MongoDB.png)
+![image](/my-notebook/images/mongodb/MongoDB.png)
 
 ## ObjectID字段
 

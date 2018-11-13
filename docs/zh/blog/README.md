@@ -1,3 +1,7 @@
+---
+sidebar: false
+---
+
 # 青春不悔，砥砺前行
 
 ### [《人生的意义》殷海光](rensheng-blog.html)

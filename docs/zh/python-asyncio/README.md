@@ -1,8 +1,3 @@
----
-sidebar: auto
-
----
-
 ## asyncio
 ::: asyncio模块
 :::

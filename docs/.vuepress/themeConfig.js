@@ -65,7 +65,8 @@ module.exports = {
           title: 'Python',
           collapsable: true,
           children: [
-            '/zh/Python/collections', '/zh/Python-asyncio/'
+            '/zh/Python/collections', '/zh/Python-asyncio/',
+            '/zh/Python/Django', '/zh/Python/Flask'
           ]
         },
         {
@@ -94,6 +95,13 @@ module.exports = {
           collapsable: true,
           children: [
             '/zh/MongoDB/', '/zh/MongoDB/MongoEngine'
+          ]
+        },
+        {
+          title: 'Mac工具',
+          collapsable: true,
+          children: [
+            '/zh/Mac/HomeBrew', '/zh/Mac/Iteam2'
           ]
         },
       ]

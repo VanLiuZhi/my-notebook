@@ -17,13 +17,15 @@ collapsable: false,
 ```
 docker network create my_network
 ```
-::: tip 加入网络示例
+
+tip 加入网络示例：
+
 `docker run -it --name=web_django --network web_network --network-alias django -v /root/py_web_vadmin/:/root/web_work -p 8080:8080 debian:v2 bash`
 
 `docker run -it --name=web_nginx --network web_network --network-alias nginx -v /root/py_web_vadmin/:/root/web_work -p 80:80 nginx bash`
 
 把debian和nginx加入到一个已创建的网络中。
-:::
+
 2. 查看网络
 ```
 docker network ls 查看已创建的网络，默认有服务自己创建的网络

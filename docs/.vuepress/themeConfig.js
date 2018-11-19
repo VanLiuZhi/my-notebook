@@ -73,7 +73,7 @@ module.exports = {
           title: 'JavaScript',
           collapsable: true,
           children: [
-            '/zh/Python/collections', '/zh/Python-asyncio/'
+            '/zh/JavaScript/npm', '/zh/JavaScript/nvm'
           ]
         },
         {
@@ -91,6 +91,13 @@ module.exports = {
           ]
         },
         {
+          title: 'MySql',
+          collapsable: true,
+          children: [
+            '/zh/MySql/install-problem'
+          ]
+        },
+        {
           title: 'Algorithm',
           collapsable: true,
           children: [
@@ -101,7 +108,7 @@ module.exports = {
           title: 'Mac工具',
           collapsable: true,
           children: [
-            '/zh/Mac/HomeBrew', '/zh/Mac/Iteam2'
+            '/zh/Mac/HomeBrew', '/zh/Mac/Iterm2'
           ]
         },
       ]

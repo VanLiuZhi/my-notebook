@@ -155,11 +155,3 @@ PASSWORD_HASHERS = [
 - 验证器：用在模型字段参数里面，对字段的值进行验证
 froms:表单模型，表单相关，验证器可以在表单模型字段里面使用（表单模型不是我常用的东西）
 - 日志记录模块
-
-```
-while True: 
-    print siteinfo.get_site().doTaskTicks(); 
-    siteinfo.get_site().doAppPayNotify(); 
-    time.sleep(5)
-reload(siteinfo)
-```

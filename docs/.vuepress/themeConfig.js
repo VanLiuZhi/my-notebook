@@ -77,6 +77,13 @@ module.exports = {
           ]
         },
         {
+          title: 'HTML',
+          collapsable: true,
+          children: [
+            '/zh/HTML/css'
+          ]
+        },
+        {
           title: 'Docker',
           collapsable: true,
           children: [
@@ -94,7 +101,7 @@ module.exports = {
           title: 'MySql',
           collapsable: true,
           children: [
-            '/zh/MySql/install-problem'
+            '/zh/MySql/install-problem', '/zh/MySql/sqlAlchemy-query'
           ]
         },
         {
@@ -109,6 +116,13 @@ module.exports = {
           collapsable: true,
           children: [
             '/zh/Mac/HomeBrew', '/zh/Mac/Iterm2'
+          ]
+        },
+        {
+          title: 'Other ',
+          collapsable: true,
+          children: [
+            '/zh/Other/yaml'
           ]
         },
       ]

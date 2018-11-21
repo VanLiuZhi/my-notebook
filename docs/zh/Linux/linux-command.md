@@ -1,4 +1,4 @@
-# Linux 命令
+# Linux 命令与工具
 
 ## chsh 修改用户使用的shell
 
@@ -43,3 +43,35 @@ lsof 是 linux 下的一个非常实用的系统级的监控、诊断工具。
 监控进程：`lsof -p 2854` 查看指定进程打开的文件。
 
 监控网络：`lsof -i:8080` 查看端口被哪些进程使用。
+
+## wget
+
+wget url 下载文件
+
+## tar 解压
+
+关于解压，如果是网络的包，文件后缀tar.gz
+
+解压命令 tar zxf filename
+
+zip类型，需要安装解压工具 unzip
+
+unzip filename 先创建好目标目录，在里面解压，或者指定目录
+
+## screen 工具
+
+需要下载
+
+screen -r name
+
+screen -S name  最好用大写的S
+
+screen C d  关闭当前会话并结束进程
+
+screen -ls
+
+会话会有状态，dead 状态利用screen -wipe 清除
+
+Detached 为没有人登陆，Attached为有人，有时候没有人也会是这个状态，一般是出问题了screen -D  -r ＜session-id> 先踢掉前一用户，再登陆。
+
+screen -X -S session_id quit

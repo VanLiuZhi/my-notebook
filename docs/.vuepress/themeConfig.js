@@ -58,7 +58,15 @@ module.exports = {
           title: 'Linux',
           collapsable: true,
           children: [
-            '/zh/Linux/linux-command', '/zh/Linux/linux-shell'
+            '/zh/Linux/linux-command', '/zh/Linux/linux-shell', 
+            '/zh/Git/git-command'
+          ]
+        },
+        {
+          title: 'Web',
+          collapsable: true,
+          children: [
+            '/zh/Web/http-protocol', '/zh/Web/ssl-credential', '/zh/Web/other', 
           ]
         },
         {

@@ -81,7 +81,8 @@ module.exports = {
           title: 'JavaScript',
           collapsable: true,
           children: [
-            '/zh/JavaScript/npm', '/zh/JavaScript/nvm'
+            '/zh/JavaScript/npm', '/zh/JavaScript/nvm', '/zh/JavaScript/',
+            '/zh/JavaScript/jQuery', '/zh/JavaScript/node', '/zh/JavaScript/ECMAScript'
           ]
         },
         {

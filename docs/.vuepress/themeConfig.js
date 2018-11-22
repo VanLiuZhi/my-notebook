@@ -59,7 +59,7 @@ module.exports = {
           collapsable: true,
           children: [
             '/zh/Linux/linux-command', '/zh/Linux/linux-shell', 
-            '/zh/Git/git-command'
+            '/zh/Git/git-command', '/zh/Linux/linux-base'
           ]
         },
         {
@@ -109,7 +109,7 @@ module.exports = {
           title: 'MySql',
           collapsable: true,
           children: [
-            '/zh/MySql/install-problem', '/zh/MySql/sqlAlchemy-query'
+            '/zh/MySql/install-problem', '/zh/MySql/sqlAlchemy-query', '/zh/MySql/base'
           ]
         },
         {
@@ -117,6 +117,13 @@ module.exports = {
           collapsable: true,
           children: [
             '/zh/MongoDB/', '/zh/MongoDB/MongoEngine'
+          ]
+        },
+        {
+          title: 'ReadBook',
+          collapsable: true,
+          children: [
+            '/zh/ReadBook/Core-python-programming', '/zh/ReadBook/javascript-definitive-guide'
           ]
         },
         {

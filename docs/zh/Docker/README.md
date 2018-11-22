@@ -126,7 +126,7 @@ One of created, restarting, running, removing, paused, exited, or dead
 :::
 
 ## Dockerfile 使用
-除了通过拉取官方镜像的方式外，使用<span style="color: red">Dockerfile</span>可以定制镜像，使其更加灵活。
+除了通过拉取官方镜像的方式外，使用Dockerfile可以定制镜像，使其更加灵活。
 整个Dockerfile文件就是执行的脚本，由特定的命令组成，一个redis镜像Dockerfile文件大概是这样的。
 
 ```vim

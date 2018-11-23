@@ -74,7 +74,7 @@ module.exports = {
           collapsable: true,
           children: [
             '/zh/Python/collections', '/zh/Python-asyncio/',
-            '/zh/Python/Django', '/zh/Python/Flask'
+            '/zh/Python/Django', '/zh/Python/Flask', '/zh/Python/'
           ]
         },
         {

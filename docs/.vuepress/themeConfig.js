@@ -74,7 +74,8 @@ module.exports = {
           collapsable: true,
           children: [
             '/zh/Python/collections', '/zh/Python-asyncio/',
-            '/zh/Python/Django', '/zh/Python/Flask', '/zh/Python/'
+            '/zh/Python/Django', '/zh/Python/Flask', '/zh/Python/',
+            '/zh/Python/virtualenv', '/zh/Python/pytest'
           ]
         },
         {
@@ -132,6 +133,13 @@ module.exports = {
           collapsable: true,
           children: [
             '/zh/Mac/HomeBrew', '/zh/Mac/Iterm2'
+          ]
+        },
+        {
+          title: 'Python工具',
+          collapsable: true,
+          children: [
+            '/zh/PythonUtil/'
           ]
         },
         {

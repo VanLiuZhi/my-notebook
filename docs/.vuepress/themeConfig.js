@@ -146,7 +146,7 @@ module.exports = {
           title: 'Other ',
           collapsable: true,
           children: [
-            '/zh/Other/yaml'
+            '/zh/Other/yaml', '/zh/Other/'
           ]
         },
       ]

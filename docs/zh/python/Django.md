@@ -110,6 +110,11 @@ PASSWORD_HASHERS = [
 </template>
 </HightCode>
 
+## 中间件
+高版本需要继承MiddlewareMixin，低版本不需要。
+
+各种架构中都会用到的技术（有些框架也称为管道，httphandle）。用户发起的请求会依次经过所有的中间件。由于中间件也用来处理django的内部的东西，所以自己添加的中间件一般写在系统中间件后面，除非你对流程很了解，想在框架某个流程时插入某些东西。
+
 ## 模型
 
 - 每个模型都是django.db.models.Model 的一个Python 子类。模型的每个属性都表示为数据库中的一个字段。
@@ -427,6 +432,22 @@ obj=Author.objects.get(username__exact=username)   #get 取得的是字段为use
 
 匹配的对象：在使用update的时候，需要注意，查询集才有这个方法，查询集实例没有，查询集有5个，update可以一次更新5张表的数据。
 
+### 其它
+
+- 对于模型的新创建的实例，直接save()就行了，不能用 `save(update_fields=[])`，本来就没有字段，所以不能用。如果是QS的元素，考虑使用 `save(update_fields=[])`，它只更新特定的字段。 
+- 对于QS，可以使用QS.update(field=value)，批量跟新。
+
+`django queryset` 的 `values` 和 `values_list(values_list('id', flat=true))`
+
+这两个函数可以得到特定字段的值，有些字段是外键，我们在表示的时候，需要的是外键所对应的对象，利用这个外键id,查到数据后，将查到的对象添加到刚才的列表中去。
+
+去除重复：distinct
+
+在做查询的时候，filter的参数如果是None，就是把模型中该字段为null的查出来
+
+## 事务
+
+在Django中使用事务：`@transaction.atomic` 该装饰器将装饰内容由事务来处理。
 
 ## 命令
 
@@ -641,6 +662,10 @@ test.
 ```
 
 这个注释是无效的。
+
+### 其它
+
+ifequal：输出第一个判断为True的值
 
 ## 其它功能
 

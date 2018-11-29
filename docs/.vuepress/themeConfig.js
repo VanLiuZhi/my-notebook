@@ -42,7 +42,7 @@ module.exports = {
         // },
         {
           text: '笔记',
-          link: '/zh/IndexPage/'
+          link: '/zh/Python/'
         },
         {
           text: '收藏',
@@ -118,7 +118,7 @@ module.exports = {
           title: 'Algorithm',
           collapsable: true,
           children: [
-            '/zh/MongoDB/', '/zh/MongoDB/MongoEngine'
+            '/zh/Algorithm/'
           ]
         },
         {

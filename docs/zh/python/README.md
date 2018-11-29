@@ -103,6 +103,8 @@ python有关private的描述，python中不存在protected的概念，要么是p
 
 变量轧压：Python把以两个或以上下划线字符开头且没有以两个或以上下划线结尾的变量当作私有变量。私有变量会在代码生成之前被转换为长格式（变为公有）。转换机制是这样的：在变量前端插入类名，再在前端加入一个下划线字符。这就是所谓的私有 `变量轧压`（Private name mangling）。
 
+属性扩张：一个属性命名前加了2个下划线，属性会扩展为  _类__属性，属性扩展后，要用扩展后的变量名去获取属性。
+
 注意：
 - 一是因为轧压会使标识符变长，当超过255的时候，Python会切断，要注意因此引起的命名冲突。
 - 二是当类名全部以下划线命名的时候，Python就不再执行轧压。
@@ -667,7 +669,7 @@ string = __import__(modelname)
 
 委托的概念，就是你想访问A类的时候，通过B类来访问，一般实现在B类中创建一个私有属性，指向A的实例。
 
-class ：class语句是对象的创建者并且是一个隐含的赋值运算——执行时，它会产生类对象，并把其引用值存储在前面所使用的变量名。就是说，只有代码跑到这里，或者是导入class语句才发挥作用。
+class ：class语句是对象的创建者并且是一个隐含的赋值运算---执行时，它会产生类对象，并把其引用值存储在前面所使用的变量名。就是说，只有代码跑到这里，或者是导入class语句才发挥作用。
 
 注意：一个对象的属性查找顺序遵循首先查找实例对象自己，然后是类，接着是类的父类。如果有一个类变量叫“data”, 实例也有一个变量同名，那么通过self.data去找到的只是实例的，当实例没有这个变量，才会找到类变量。一般类变量访问通过类名来获取。
 
@@ -684,3 +686,169 @@ instance.method(args...)           class.method(instance, args...)
 在python中，当对对象进行点号运算时，就会发生继承，而且涉及了搜索属性定义树（一个或多个命名空间）
 
 类接口技术常用的技巧：超类，继承，重写，扩展，提供（提供者模式）
+
+| name      | description
+| --------- | ----------          
+| Super     | 定义一个method函数以及在子类中期待一个动作delegate 
+| Inheritor | 没有提供任何新的变量名，因此会获得Super中定义的一切内容 
+| Replacer  | 用自己的模版覆盖Super的method 
+| Extender  | 覆盖并回调默认method，从而定制Super的method 
+| Provider  | 实现Super的delegate方法预期的action方法 
+
+研究这些子类来了解它们定制的共同的超类的不同的途径，下面就是这个文件：
+
+<HightCode>
+<template>
+class Super:
+    def method(self):
+        print('in Super.method') # Defaulr behavior
+
+    def delegate(self):
+        self.action()            # Expected to be definde
+
+
+class Inheritor(Super):          # Inherit method verbatim
+    pass
+
+
+class Replacer(Super):           # Replace method completely
+    def method(self):
+        print('in Replacer.method')
+
+
+class Extender(Super):
+    def method(self):
+        print('staring Extender.method')
+        Super.method(self)
+        print('ending Extender.method')
+
+
+class Provider(Super):           # Fill in a required method
+    def action(self):
+        print('in Provider.action')
+
+</template>
+</HightCode>
+
+关于抽象超类：超类Super中定义了一个函数test。调用了自身的action函数。但是Super中并没有定义action函数。这个超类也会称为抽象超类。意思是说，类的部分行为由子类来提供。
+
+属性名称：对象命名空间
+
+点号的属性名指的是特定对象定属性，并且遵循模块和类定规则。就类和实例对象而言，引用规则增加了继承搜索这个流程。
+
+赋值语句（object.X = value）
+
+在进行点号运算的对象的命名空间内创建或修改属性名X，并没有其他作用。继承树的搜索只发生只属性引用时，而不是属性的赋值运算时。
+
+引用（object.X）
+
+就基于类的对象而言，会在对象内搜索属性名X，然后是其上所有可读取的类（使用继承搜索流程）
+
+对于目前类来说，结合着函数部分的内容，理解作用域是关键，赋值和引用也是关键，看到一条语句要知道它是赋值还是引用，将大大加深你对程序的理解。
+
+加深：作用域总是由赋值语句的位置决定。这里引申一下python3 关键字 nolocal 可以让变量查找作用域到达外层，这样就可以取函数外层的变量了，但不是将其设置为全局（global）。一定要理解赋值和引用。
+```PY
+def  A():
+    x = 'a'
+    def B():
+        x += 1
+```        
+在这个例子里面，内层的x还没赋值就参与了运算，是不对的，一般像 y = x + 1是把外层的x拿来，是不能改变x的，要改变，是对变量操作，所以变量要先赋值。所以要用global ，或者nolocal 。还是那句话，这些例子和概念是为了理解LEGB，实际开发我们没必要设置一样的变量名。
+
+命名空间字典：
+
+模块和类一样，它们的命名空间是以字典的形式来实现的。属性点号的运算其实内部是字典的索引运算，而属性继承其实就是搜索链接的字典。
+
+内省的方法对函数也适用
+
+模块和类：模块是数据or逻辑包，通过编写python or C 实现，通过导入来使用。类，由class语句创建，通过调用来使用，总是位于一个模块中。
+
+抽象超类：
+
+抽象类是会调用方法的类，但没有继承或定义该方法，而是期待该方法由子类填补。当行为无法预测，非得等到更为具体的子类编写时才知道，通常可以用这种方式把类通用化。OOP软件框架也使用这种方式作为客户端定义，可定制的运算的实现方法。
+
+通过在子类中重新定义方法，然后再调用超类的方法，可以给这个方法增加功能，而不是完全覆盖。
+
+python 方法的绑定和未绑定：一般情况，我们都是直接调用方法的。方法是对象，可以获取方法对象而不调用。实例去获取的时候，方法被绑定到实例，得到新对象加上括号就可以调用了。而用类去获取，得到的就是无绑定方法对象，要执行需要把实例作为第一个参数传入。注意，在python3中，无绑定方法将变成函数，它不再是方法对象。显示类型测试程序可能受到影响，如果你打印一个非实例的类方法，它在Python2.6中显示“无绑定方法（unbound method）”，在Python3.0中显示“函数”（function）
+
+python 扩展内置类型：一般情况，通过继承内置类型，重载运算符，但是最后还是要调用超类的方法。最好有这种需要的时候多查阅下资料。
+
+### 继承搜索机制
+
+只在新式类中，继承搜索是从左到右，广度优先。
+
+经典类：
+```py
+class P1(object):
+    def foo(self):
+        print('p1-foo')
+
+
+class P2(object):
+    def foo(self):
+        print('p2-foo')
+
+    def bar(self):
+        print('p2-bar')
+
+
+class C1(P1, P2):
+    pass
+
+
+class C2(P1, P2):
+    def bar(self):
+        print('C2-bar')
+
+
+class D(C1, C2):
+    pass
+```
+
+新式类：
+```PY
+class P1:
+    def foo(self):
+        print('p1-foo')
+
+
+class P2:
+    def foo(self):
+        print('p2-foo')
+
+    def bar(self):
+        print('p2-bar')
+
+
+class C1(P1, P2):
+    pass
+
+
+class C2(P1, P2):
+    def bar(self):
+        print('C2-bar')
+
+
+class D(C1, C2):
+    pass
+```
+
+1. 经典类
+```py
+    d = D()
+    d.foo() # 输出 p1-foo 
+    d.bar() # 输出 p2-bar 
+```
+- 实例d调用foo()时，搜索顺序是 `D => C1 => P1`
+- 实例d调用bar()时，搜索顺序是 `D => C1 => P1 => P2`
+换句话说，经典类的搜索方式是按照“从左至右，深度优先”的方式去查找属性。d先查找自身是否有foo方法，没有则查找最近的父类C1里是否有该方法，如果没有则继续向上查找，直到在P1中找到该方法，查找结束。
+
+2. 新式类
+```py
+    d=D() 
+    d.foo() # 输出 p1-foo 
+    d.bar() # 输出 c2-bar 
+```
+- 实例d调用foo()时，搜索顺序是 `D => C1 => C2 => P1`
+- 实例d调用bar()时，搜索顺序是 `D => C1 => C2`
+可以看出，新式类的搜索方式是采用“广度优先”的方式去查找属性。

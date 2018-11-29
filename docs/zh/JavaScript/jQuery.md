@@ -66,5 +66,26 @@ click() 方法触发 click 事件，或规定当发生 click 事件时运行的�
 
 on 为元素绑定事件，比如click事件，然后加个函数，这个元素点击后就会去执行这个函数。
 
+## html()
+
+jquery渲染页面方法，`$.html()` 对dom执行html方法，会将dom的内容给替换了，比如 `<div class=123></div>`  对这个dom执行方法`html(<p>123</p>)` 结果是`<div class=123><p>123</p></div> `
+
+## 元素切换
+
+sildeup sildedown，show hide 元素切换隐藏
+
+## jQuery遍历
+
+- siblings：`dom.siblings(.class).addClass()` 对选择对象执行遍历，找到所有class类，并给他们添加样式。
+
+## scroll()  
+
+dom调用，可以在滚动条滚动的时候触发，只要有滚动就触发。这里注意如果逻辑涉及到滚动的数值判断，使用比较不要使用相等，因为滚动很快，相关的判断不一定每次执行到。
+
+## 样式：
+
+直接写在dom上，相当于 `style : dom.css('color', 'red')`
+
+hasClass()   addClass()   removClass()   对dom类的控制
 
 

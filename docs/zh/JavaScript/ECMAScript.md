@@ -45,6 +45,8 @@ console.log(1, ...[2, 3, 4], 5)
 
 箭头函数最大特点： 不绑定this  不绑定arguments
 
+es6箭头函数，这个是原来定义函数的缩写。let 和原来的 var 类似，var是声明变量，它所处的位置决定了变量的作用域，比如在函数里面就是函数的作用于，在外部就是全局作用域。let也是这样，但是它的位置决定的是最接近的块的作用域，作用域比var更细，除了函数全局外，如果你用在for，if里面，那么在整个函数里面是不可见的。所以可以用let声明作用域更细的变量。
+
 ## 继承
 
 理解继承的机制
@@ -119,3 +121,44 @@ __proto__
 早绑定（early binding）是指在实例化对象之前定义它的属性和方法，这样编译器或解释程序就能够提前转换机器代码。在 Java 和 Visual Basic 这样的语言中，有了早绑定，就可以在开发环境中使用 IntelliSense（即给开发者提供对象中属性和方法列表的功能）。ECMAScript 不是强类型语言，所以不支持早绑定。
 
 另一方面，晚绑定（late binding）指的是编译器或解释程序在运行前，不知道对象的类型。使用晚绑定，无需检查对象的类型，只需检查对象是否支持属性和方法即可。ECMAScript 中的所有变量都采用晚绑定方法。这样就允许执行大量的对象操作，而无任何惩罚。
+
+## 文件导入
+
+export default 和 export 区别：
+
+1. export与export default均可用于导出常量、函数、文件、模块等
+2. 你可以在其它文件或模块中通过import+(常量 | 函数 | 文件 | 模块)名的方式，将其导入，以便能够对其进行使用
+3. 在一个文件或模块中，export、import可以有多个，export default仅有一个
+4. 通过export方式导出，在导入时要加{ }，export default则不需要
+
+1. export
+
+```js
+//a.js
+export const str = "blablabla~";
+export function log(sth) { 
+  return sth;
+}
+```
+
+对应的导入方式：
+
+```js
+//b.js
+import { str, log } from 'a'; //也可以分开写两次，导入的时候带花括号
+```
+
+2. export default
+
+```js
+//a.js
+const str = "blablabla~";
+export default str;
+```
+
+对应的导入方式：
+
+```js
+//b.js
+import str from 'a'; //导入的时候没有花括号
+```

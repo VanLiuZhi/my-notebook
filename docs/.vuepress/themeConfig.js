@@ -63,13 +63,6 @@ module.exports = {
           ]
         },
         {
-          title: 'Web',
-          collapsable: true,
-          children: [
-            '/zh/Web/http-protocol', '/zh/Web/ssl-credential', '/zh/Web/other', 
-          ]
-        },
-        {
           title: 'Python',
           collapsable: true,
           children: [
@@ -83,7 +76,8 @@ module.exports = {
           collapsable: true,
           children: [
             '/zh/JavaScript/npm', '/zh/JavaScript/nvm', '/zh/JavaScript/',
-            '/zh/JavaScript/jQuery', '/zh/JavaScript/node', '/zh/JavaScript/ECMAScript'
+            '/zh/JavaScript/jQuery', '/zh/JavaScript/node', '/zh/JavaScript/ECMAScript',
+            '/zh/JavaScript/Vue'
           ]
         },
         {
@@ -112,6 +106,13 @@ module.exports = {
           collapsable: true,
           children: [
             '/zh/MySql/install-problem', '/zh/MySql/sqlAlchemy-query', '/zh/MySql/base'
+          ]
+        },
+        {
+          title: 'Web',
+          collapsable: true,
+          children: [
+            '/zh/Web/http-protocol', '/zh/Web/ssl-credential', '/zh/Web/other', 
           ]
         },
         {

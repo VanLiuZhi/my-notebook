@@ -441,9 +441,13 @@ obj=Author.objects.get(username__exact=username)   #get 取得的是字段为use
 
 这两个函数可以得到特定字段的值，有些字段是外键，我们在表示的时候，需要的是外键所对应的对象，利用这个外键id,查到数据后，将查到的对象添加到刚才的列表中去。
 
-去除重复：distinct
+- 去除重复：distinct
 
-在做查询的时候，filter的参数如果是None，就是把模型中该字段为null的查出来
+distinct()可以对查询集进行去重复，比如querset.distinct(),  得到的查询集元素都是唯一的对象。（有些时候，我们用id__in去得到的数据会有好几个，比如一个模型的两张表字段外键都是对到同一个，这个时候id__in 就会得到两个查询集对象，但是这个去重一般是在想处理相同字段的时候使用）当我们想去除字段相同的数据的时候，`querset.values(fields).distinct().order_by('fields')`, 这个操作会返回dict, 这里需要排序的原因是如果不排序。在执行distinct的时候，使用默认排序id, 两列数据id是不一样的，只有我们想去重的字段是一样的，所以要以想去重的字段为准，执行一次排序。
+
+- 在做查询的时候，filter的参数如果是None，就是把模型中该字段为null的查出来
+
+- sql：EXISTS用于检查子查询是否至少会返回一行数据，该子查询实际上并不返回任何数据，而是返回值True或False。EXISTS 指定一个子查询，检测 `行` 的存在。django也可以用这个方法，对于queryset.exists()即可
 
 ## 事务
 

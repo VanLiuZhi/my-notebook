@@ -183,4 +183,32 @@ Attribute 属性； Event 事件； HTML 对象；
 
 当然如果真的这样大面积的操作 DOM，性能会是一个很大的问题，所以 React 实现了一个虚拟 DOM，组件 DOM 结构就是映射到这个虚拟 DOM 上，React 在这个虚拟 DOM 上实现了一个 diff 算法，当要更新组件的时候，会通过 diff 寻找到要变更的 DOM 节点，再把这个修改更新到浏览器实际的 DOM 节点上，所以实际上不是真的渲染整个 DOM 树。这个虚拟 DOM 是一个纯粹的 JS 数据结构，所以性能会比原生 DOM 快很多。
 
+## indexOf
 
+数组过滤。indexOf作用是返回字符串第一次出现在给定字符串的index，可以用来处理某个字符串有没有在给定字符串中。  给定 `str.indexOf(某个字符串) = 0` 说明第一个就匹配到，这个给定字符串。如果是空格分隔的，如几个单词，那么结果就不一定是0了，因为会在后面的位置。记住是给定来调用这个方法就行了
+
+## 格式化字符串  
+```js
+	`a${var}` 
+```
+如果var是1，result 为 a1。注意两边的符号为tab键上面的
+
+## bject.keys(obj)
+
+返回值: 一个表示给定对象的所有可枚举属性的字符串数组
+
+1. 传入字符串，返回索引
+```js
+var arr = ['a', 'b', 'c'];
+console.log(Object.keys(arr)); // console: ['0', '1', '2']
+```
+
+2. 传入对象，返回属性名
+```js
+var obj = { a: 'alive', b: 'bike', c: 'color' };
+console.log(Object.keys(obj)); // console: ['a', 'b', 'c']
+```
+
+## length  
+
+只对字符串和数组有用，整形数字和对象返回未定义undefined

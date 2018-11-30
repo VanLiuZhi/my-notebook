@@ -1,3 +1,7 @@
+# Vue
+
+![image](/my-notebook/images/JavaScript/vue-1.png)
+
 在通过ajax获取到数据需要赋值到data里面的时候，如果是不可变变量，可以直接赋值，但是如果是arrey，需要迭代每个值，加到data中。   Ajax.data.forEach(function(val, index){  vue.data.push(val) })。
 
 vue:在html中传递 this  ，在vue中this都是指向vue的组件，如果我们想使用原本的this指向这个dom,需要这样使用dofunc($event)。在函数里面dofunc(v){ v.target   }   如果转换为jQuery 对象 $(v.target)  

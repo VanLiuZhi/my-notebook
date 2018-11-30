@@ -68,7 +68,8 @@ module.exports = {
           children: [
             '/zh/Python/collections', '/zh/Python-asyncio/',
             '/zh/Python/Django', '/zh/Python/Flask', '/zh/Python/',
-            '/zh/Python/virtualenv', '/zh/Python/pytest'
+            '/zh/Python/virtualenv', '/zh/Python/pytest',
+            '/zh/Python-socket/', '/zh/Python-threading/'
           ]
         },
         {

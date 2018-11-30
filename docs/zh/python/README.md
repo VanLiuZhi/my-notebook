@@ -16,25 +16,27 @@ sidebarDepth: 2
 
 如果已经定义了Person类，需要定义新的Student和Teacher类时，可以直接从Person类继承：
 
-<HightCode>
-<template>
-class Person(object):
-    def __init__(self, name, gender):
-        self.name = name
-        self.gender = gender
-</template>
-</HightCode>
+<highlight-code lang='python'>
+
+    class Person(object):
+
+        def __init__(self, name, gender):
+            self.name = name
+            self.gender = gender
+
+</highlight-code>
 
 定义Student类时，只需要把额外的属性加上，例如score：
 
-<HightCode>
-<template>
-class Student(Person):
-    def __init__(self, name, gender, score):
-        super(Student, self).__init__(name, gender)
-        self.score = score
-</template>
-</HightCode>
+<highlight-code lang='python'>
+
+    class Student(Person):
+
+        def __init__(self, name, gender, score):
+            super(Student, self).__init__(name, gender)
+            self.score = score
+
+</highlight-code>
 
 一定要用 `super(Student, self).__init__(name, gender)` 去初始化父类，否则，继承自 Person 的 Student 将没有 name 和 gender。
 函数 `super(Student, self)` 将返回当前类继承的父类，即 Person ，然后调用__init__()方法，注意self参数已在super()中传入，在__init__()中将隐式传递，不需要写出（也不能写）。
@@ -43,32 +45,33 @@ class Student(Person):
 
 假如一个类C继承了类A和类B，类A和类B有不同的属性，并且类C在创建时要初始化这些属性，此时在类C的构造函数__init__中使用super(C，self).__init__调用就无法实现了
 
-<HightCode>
-<template>
-class A(object):
-    def __init__(self, a):
-        self.a = a
-class B(object):
-    def __init__(self, b):
-        self.b = b
-class C(A, B):
-    def __init__(self, a, b):
-        super(C, self).__init__(a, b)  # <----这样写是错误的
+<highlight-code lang='python'>
 
-</template>
-</HightCode>
+    class A(object):
+        def __init__(self, a):
+            self.a = a
+
+    class B(object):
+        def __init__(self, b):
+            self.b = b
+
+    class C(A, B):
+        def __init__(self, a, b):
+            super(C, self).__init__(a, b)  # <----这样写是错误的
+
+</highlight-code>
 
 正确的写法:
 
-<HightCode>
-<template>
-class C(A, B):
-    def __init__(self, a, b):
-        A.__init__(self, a)
-        B.__init__(self, b)
+<highlight-code lang='python'>
 
-</template>
-</HightCode>
+    class C(A, B):
+
+        def __init__(self, a, b):
+            A.__init__(self, a)
+            B.__init__(self, b)
+
+</highlight-code>
 
 **建议养成习惯，不要使用super()这个函数，即便是单继承，也使用上面的方式**
 
@@ -369,22 +372,20 @@ python dict函数：一般用法传入关键字，其它方法：
 
 2. 第二种情况，一个类定义了属性绑定，但是它有继承，这个时候该类的slots是发挥不了作用的。需要父类定义 `__slots = ()` 一个空元组，子类的slots才发挥作用。
 
-<HightCode>
-<template>
+<highlight-code lang='python'>
 
-class C:
-    # __slots__ = ('a',)
-    __slots__ = ()
+    class C:
+        # __slots__ = ('a',)
+        __slots__ = ()
 
-    pass
+        pass
 
-class D(C):
-    __slots__ = ('b',)
+    class D(C):
+        __slots__ = ('b',)
 
-    pass
+        pass
 
-</template>
-</HightCode>
+</highlight-code>
 
 在应用开发中，也是很少使用slots，一般在看源代码的时候会见到
 
@@ -563,67 +564,68 @@ python 依赖于类型的行为称为多态。为对象来编写接口，而不�
 分析一个函数的时候，先分析变量的赋值，看其所处的作用域。即先看这个变量会处于什么
 作用域，再去分析代码。
 
-<HightCode>
-<template>
-def func1(parm1):
-    parm1 = parm1
-    def func2(s):
-        print parm1, s
-    return func2
-# 这样是正确的
-def func1(parm1):
-    parm1 = parm1
-    def func2(s):
-        print parm1, s
-        parm1 = parm1 + 1
-    return func2
-# 这样就出错了，以为函数第一，先创建，第二对赋值的变量创建作用域（静态作用域），
-# print 语句等函数执行的时候才去执行，次数需要的参数parm1是局部的（因为下一句赋值的
-# 关系），所以程序出错。
-</template>
-</HightCode>
+<highlight-code lang='python'>
+
+    def func1(parm1):
+        parm1 = parm1
+        def func2(s):
+            print parm1, s
+        return func2
+    # 这样是正确的
+
+    def func1(parm1):
+        parm1 = parm1
+        def func2(s):
+            print parm1, s
+            parm1 = parm1 + 1
+        return func2
+    # 这样就出错了，以为函数第一，先创建，第二对赋值的变量创建作用域（静态作用域），
+    # print 语句等函数执行的时候才去执行，次数需要的参数parm1是局部的（因为下一句赋值的
+    # 关系），所以程序出错。
+
+</highlight-code>
 
 python3  nonlocal ：
 
 在python2 中只有 `global` 被声明的变量会将作用域变成全局。`nonlocal` 的作用：如果在嵌套函数中赋值，该变量会被判定为局部作用域，如果不先赋值就会出错，如果外层有同名变量，在不改变内层变量名的情况下（内层变量名和外层一样），想引用外层的变量，只有声明变量是 `nonlocal`。其实改个变量名也可以解决事情。
 
-<HightCode>
-<template>
-def func1(parm1):
-    parm1 = parm1
-    def func2(s):
-        parm2 = parm1
-        parm2 = parm2 + 'ss'
-        print parm2
-    return func2
-</template>
-</HightCode>
+<highlight-code lang='python'>
+
+    def func1(parm1):
+        parm1 = parm1
+        def func2(s):
+            parm2 = parm1
+            parm2 = parm2 + 'ss'
+            print parm2
+        return func2
+
+</highlight-code>
 
 若要 `parm1 = parm1` ,要先 `nonlocal  param1`。局部作用域里的代码可以读外部作用域（包括全局作用域）里的变量，但不能更改它。一旦进行更改，就会将其当成是局部变量。而如果在更改前又进行了读取操作，则会抛出异常。这里的改变，即赋值，给想变的变量赋值（是不行的，只能使用关键字，如果外部有个x，将x进行 `parm = x`，是读取了x的值，后面用parm，不属于改变）
 
 如果上面的例子不好理解nonlocal，可以这样理解：
 
-<HightCode>
-<template>
-def mufunc():
-    a = 123
-    def func():
-        a = a(标记1)+1
-</template>
-</HightCode>
+<highlight-code lang='python'>
+
+    def mufunc():
+        a = 123
+        def func():
+            a = a(标记1)+1
+
+</highlight-code>
 
 在这个函数里面，对于 `func a` 根据上面所学，应该知道这里a是声明，那么a的作用域被确定，当然因为没有赋值变量就引用，是要报错的。为了让a（标记1）可以拿到上层函数的a，就可以使用关键字：
 
-<HightCode>
-<template>
-def mufunc():
-    a = 123
-    def func():
-        nonlocal a
-        a = a(标记1)+1
-        # a = 123+1
-</template>
-</HightCode>
+<highlight-code lang='python'>
+
+    def mufunc():
+        a = 123
+        def func():
+            nonlocal a
+            a = a(标记1)+1
+            # a = 123+1
+
+</highlight-code>
 
 ## 函数的参数
 
@@ -651,13 +653,15 @@ python3 新增加的特性，可以对函数增加变量注释，以及返回值
 
 例子：
 
-```py
-def func(a: 'x', b: 5 + 6, c: list, *args: 'xx', **kwargs: float) -> max(2, 9):
-    pass
+<highlight-code lang='python'>
 
-print(func.__annotations__)
-# {'a': 'x', 'b': 11, 'c': <class 'list'>, 'args': 'xx', 'kwargs': <class 'float'>, 'return': 9}
-```
+    def func(a: 'x', b: 5 + 6, c: list, *args: 'xx', **kwargs: float) -> max(2, 9):
+        pass
+
+    print(func.__annotations__)
+    # {'a': 'x', 'b': 11, 'c': <class 'list'>, 'args': 'xx', 'kwargs': <class 'float'>, 'return': 9}
+    
+</highlight-code>
 
 ## lambda
 也称为匿名函数（因为没有函数名）
@@ -732,38 +736,37 @@ instance.method(args...)           class.method(instance, args...)
 
 研究这些子类来了解它们定制的共同的超类的不同的途径，下面就是这个文件：
 
-<HightCode>
-<template>
-class Super:
-    def method(self):
-        print('in Super.method') # Defaulr behavior
+<highlight-code lang='python'>
 
-    def delegate(self):
-        self.action()            # Expected to be definde
+    class Super:
+        def method(self):
+            print('in Super.method') # Defaulr behavior
 
-
-class Inheritor(Super):          # Inherit method verbatim
-    pass
+        def delegate(self):
+            self.action()            # Expected to be definde
 
 
-class Replacer(Super):           # Replace method completely
-    def method(self):
-        print('in Replacer.method')
+    class Inheritor(Super):          # Inherit method verbatim
+        pass
 
 
-class Extender(Super):
-    def method(self):
-        print('staring Extender.method')
-        Super.method(self)
-        print('ending Extender.method')
+    class Replacer(Super):           # Replace method completely
+        def method(self):
+            print('in Replacer.method')
 
 
-class Provider(Super):           # Fill in a required method
-    def action(self):
-        print('in Provider.action')
+    class Extender(Super):
+        def method(self):
+            print('staring Extender.method')
+            Super.method(self)
+            print('ending Extender.method')
 
-</template>
-</HightCode>
+
+    class Provider(Super):           # Fill in a required method
+        def action(self):
+            print('in Provider.action')
+
+</highlight-code>
 
 关于抽象超类：超类Super中定义了一个函数test。调用了自身的action函数。但是Super中并没有定义action函数。这个超类也会称为抽象超类。意思是说，类的部分行为由子类来提供。
 
@@ -824,60 +827,66 @@ python 扩展内置类型：一般情况，通过继承内置类型，重载运�
 只在新式类中，继承搜索是从左到右，广度优先。
 
 经典类：
-```py
-class P1(object):
-    def foo(self):
-        print('p1-foo')
+
+<highlight-code lang='python'>
+
+    class P1(object):
+        def foo(self):
+            print('p1-foo')
 
 
-class P2(object):
-    def foo(self):
-        print('p2-foo')
+    class P2(object):
+        def foo(self):
+            print('p2-foo')
 
-    def bar(self):
-        print('p2-bar')
-
-
-class C1(P1, P2):
-    pass
+        def bar(self):
+            print('p2-bar')
 
 
-class C2(P1, P2):
-    def bar(self):
-        print('C2-bar')
+    class C1(P1, P2):
+        pass
 
 
-class D(C1, C2):
-    pass
-```
+    class C2(P1, P2):
+        def bar(self):
+            print('C2-bar')
+
+
+    class D(C1, C2):
+        pass
+
+</highlight-code>
 
 新式类：
-```PY
-class P1:
-    def foo(self):
-        print('p1-foo')
+
+<highlight-code lang='python'>
+
+    class P1:
+        def foo(self):
+            print('p1-foo')
 
 
-class P2:
-    def foo(self):
-        print('p2-foo')
+    class P2:
+        def foo(self):
+            print('p2-foo')
 
-    def bar(self):
-        print('p2-bar')
-
-
-class C1(P1, P2):
-    pass
+        def bar(self):
+            print('p2-bar')
 
 
-class C2(P1, P2):
-    def bar(self):
-        print('C2-bar')
+    class C1(P1, P2):
+        pass
 
 
-class D(C1, C2):
-    pass
-```
+    class C2(P1, P2):
+        def bar(self):
+            print('C2-bar')
+
+
+    class D(C1, C2):
+        pass
+
+</highlight-code>
 
 1. 经典类
 ```py
@@ -981,35 +990,38 @@ class SS(object):
 实例和类都有 `__dict__` 属性，写一个装饰器，让方法变成属性可以直接访问，同时将方法作为属性添加到实例的 `__dict__` 中去，这样下次再访问这个属性方法的时候，根据属性查找规则，会先去实例里面找，因为实例已经添加了方法的属性键值对，所以直接取到了，不会再去类里面调用方法来计算属性了，从而实现了缓存（在运用的时候，代码运行起来，就每次都是去取缓存了，必须要停下来才去重新计算，所以如果你想要用一些动态技术来生成属性的值，记得把 `__dict__` 里面的原属性删除，这样你的方法才会被再次调用，重新做缓存）
 
 以下的例子中，hello只会被执行一次，因为下次从实例里面取，不再调用类的方法了。
-```py
-from cached_property import cached_property
 
-class A(object):
-    acs = '11'
-    patt = property()
+<highlight-code lang='python'>
 
-    def __init__(self, z):
-        self.z = z
-        self.info = None
+    from cached_property import cached_property
 
-    @cached_property
-    def exinfo(self):
-        print('hello')
-        if type(self.info) == dict:
-            res = self.info
-        else:
-            res = {}
-            self.info = res
-        return res
+    class A(object):
+        acs = '11'
+        patt = property()
 
-    def mydata(self):
-        return 'zxc'
+        def __init__(self, z):
+            self.z = z
+            self.info = None
 
-a = A('ss')
-print(a.__dict__, A.__dict__)
-print(a.exinfo, a.__dict__, A.__dict__)
-print(a.exinfo, a.__dict__, A.__dict__)
-```
+        @cached_property
+        def exinfo(self):
+            print('hello')
+            if type(self.info) == dict:
+                res = self.info
+            else:
+                res = {}
+                self.info = res
+            return res
+
+        def mydata(self):
+            return 'zxc'
+
+    a = A('ss')
+    print(a.__dict__, A.__dict__)
+    print(a.exinfo, a.__dict__, A.__dict__)
+    print(a.exinfo, a.__dict__, A.__dict__)
+
+</highlight-code>
 
 ### 避免循环递归
 ```py
@@ -1060,10 +1072,15 @@ env是Linux命令，可以启动python。env命令用于显示系统中已存在
 
 解析
 1. b = a: 赋值引用，a 和 b 都指向同一个对象。
+
 ![image](/my-notebook/images/Python/python-copy-1.png)
+
 2. b = a.copy(): 浅拷贝, a 和 b 是一个独立的对象，但他们的子对象还是指向统一对象（是引用）。
+
 ![image](/my-notebook/images/Python/python-copy-2.png)
+
 3. b = copy.deepcopy(a): 深度拷贝, a 和 b 完全拷贝了父对象及其子对象，两者是完全独立的。
+
 ![image](/my-notebook/images/Python/python-copy-3.png)
 
 ## 垃圾回收

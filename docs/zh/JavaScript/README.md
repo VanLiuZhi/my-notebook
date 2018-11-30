@@ -62,35 +62,37 @@ JavaScript 关键字必须以字母、下划线（_）或美元符（$）开始�
 
 js也有异常，不过很少见人使用。
 
-```html
-<title>菜鸟教程(runoob.com)</title>
-<script>
-function myFunction(){
-	try{                 //错误判断
-		var x=document.getElementById("demo").value;
-		if(x=="")    throw "值为空";
-		if(isNaN(x)) throw "不是数字";
-		if(x>10)     throw "太大";
-		if(x<5)      throw "太小";
-	}
-	catch(err){   发生错误时在此执行，err为自定义错误 throw 对应的值，
-		var y=document.getElementById("mess");
-		y.innerHTML="错误：" + err + "。";
-	}
-}
-</script>
-</head>
-<body>
+<highlight-code lang='html'>
 
-<h1>我的第一个 JavaScript</h1>
-<p>请输出一个 5 到 10 之间的数字:</p>
-<input id="demo" type="text">
-<button type="button" onclick="myFunction()">测试输入</button>
-<p id="mess"></p>
+	<html>
+	<title>菜鸟教程(runoob.com)</title>
+	<script>
+	function myFunction(){
+		try{                 //错误判断
+			var x=document.getElementById("demo").value;
+			if(x=="")    throw "值为空";
+			if(isNaN(x)) throw "不是数字";
+			if(x>10)     throw "太大";
+			if(x<5)      throw "太小";
+		}
+		catch(err){   发生错误时在此执行，err为自定义错误 throw 对应的值，
+			var y=document.getElementById("mess");
+			y.innerHTML="错误：" + err + "。";
+		}
+	}
+	</script>
+	<body>
 
-</body>
-</html>
-```
+	<h1>我的第一个 JavaScript</h1>
+	<p>请输出一个 5 到 10 之间的数字:</p>
+	<input id="demo" type="text">
+	<button type="button" onclick="myFunction()">测试输入</button>
+	<p id="mess"></p>
+
+	</body>
+	</html>
+
+</highlight-code>
 
 ## 函数
 

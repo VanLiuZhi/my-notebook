@@ -12,6 +12,23 @@ sidebarDepth: 2
 - 注意：类是可调用的，而类的实例实现了__call__()方法才可调用。
 - 版本：该函数在python2.x版本中都可用。但是在python3.0版本中被移除，而在python3.2以后版本中被重新添加。
 
+## dir() 函数
+
+dir() 函数不带参数时，返回当前范围内的变量、方法和定义的类型列表；带参数时，返回参数的属性、方法列表。如果参数包含方法 `__dir__()`，该方法将被调用。如果参数不包含 `__dir__()`，该方法将最大限度地收集参数信息。
+
+## 标准库 inspect
+
+inspect 作为Python的标准库，主要有以下作用：
+1. 对是否是模块，框架，函数等进行类型检查。
+
+2. 获取源码
+
+3. 获取类或函数的参数的信息
+
+4. 解析堆栈
+
+一般来说，可以得到对象的各种信息，函数的参数，类的文档字符串等。
+
 ## 继承一个类
 
 如果已经定义了Person类，需要定义新的Student和Teacher类时，可以直接从Person类继承：
@@ -920,70 +937,411 @@ Python支付属性描述符的概念---带有 `__get__` 和 `__set__` 方法的�
 
 ### 装饰器
 
-装饰器也可以是类，此时类需要实现 `__call__`
-```py
-class callclass(object):
-	def __init__(self, func):
-		self.func = func
+装饰器是利用语法糖@把原来繁琐的方法简化了，装饰器可以分为以下几种：
+1. 普通装饰器
+2. 被装饰对象带参数
+3. 装饰器带参数（被装饰对象同时也可以带参数）
+4. 基于类的装饰器
+5. 带参数的类装饰器
+6. 对类作用装饰器
+7. 装饰器之上的装饰器
 
-	def __call__(self, *arg):
-		print 'class'
-		self.func(*arg)
-@callclass
-def myfunc(a, b):
- 	print a * b
+对于1，2，3种情况，都是在前面的基础上进行扩展，是比较常见的情况，为了适应函数不确定的参数，推荐使用可变参数来设计装饰器：
 
-# myfunc = callclass(myfunc)
-myfunc(1, 2)
-```
+<highlight-code lang='python'>
 
-函数装饰器，类装饰器：@staticmethod  类似这样的形式，其中staticmethod 也称为元函数，运用于类的称为类装饰器。加深：装饰器在编写的时候，我们只要知道，装饰器是接受被装饰对象为参数，并将其重新赋值给装饰对象，依照此基础就可以来写装饰器。相对于类装饰器，更像是对类进行扩展，把类在装饰函数里面执行操作后（一般是添加属性等），然后返回本身。
-记住，不要死记形式，想函数装饰器也是可以这样的：
+    def get_run_time(show_time=False):
+        def ff(f):
+            def _func(*args, **kwargs):
+                import time
+                import datetime
+                if show_time:
+                    print(datetime.datetime.now())
+                a = time.time()
+                f(*args, **kwargs)
+                b = time.time()
+                print((b - a), type(a))
 
-```PY
-def func1(fun):
-	print 'zzzz'
-	return fun
-def myfunc():
-	print 'zz'
-myfunc = func1(myfunc)
-myfunc()
-```
-一般我们是这样：
-```PY
-def func1(fun):
-	def function():
-		pass
-		fun()
-		print 'zzzz'
-	return function
+            return _func
 
-def myfunc():
-	print 'zz'
+        return ff
 
-myfunc = func1(myfunc)
-myfunc()
-```
-和上面的相比，我们同样是拿到了一个函数引用。
 
-而对于类来说：
-```PY
-def asex(fun):
-	def func():
-		print 'aa'
-		setattr(fun, 'ex', 5)
-		return fun
-	return func
+    @get_run_time(True)
+    def func(*args, **kwargs):
+        print('hello')
+        print(args, kwargs)
 
-@asex
-class SS(object):
-	vy = 77
-	"""docstring for s"""
-	pass
-```
-也是返回一个函数的引用，且内层函数最后要返回作为参数的这个引用fun。相当于把 `SS = fun`，fun在函数里面做了一些事情。
 
-### 利用__dict__ 做缓存
+    # func = get_run_time(True)(func) # 不使用语法糖的情况
+    # func(a=12, b=15)
+
+    func(a=1, b=2)
+
+</highlight-code>
+
+装饰器也可以是类，由于装饰函数要能callable(因为函数就是能call的，所以类要考虑这个问题)，不然会报错 `object is not callable` 此时类需要实现 `__call__`，实例如下（混合了装饰器之上的装饰器，就是把上个装饰器后的结果（一个对象的引用）作为装饰函数的参数传入）：
+
+<highlight-code lang='py'>
+
+    def get_run_time(debug):
+        """
+        获取运行时间
+        """
+        flag = 'able' if debug else 'disable'
+        print(flag)
+
+        def f(func):
+            def _func(*args, **kwargs):
+                import time
+                start = time.time()
+                func(*args, **kwargs)
+                end = time.time()
+                run_time = end - start
+                print(run_time)
+
+            return _func
+
+        return f
+
+
+    class Logging:
+        """
+        类装饰器
+        """
+
+        def __init__(self, func):
+            self.func = func
+
+        def __call__(self, *args, **kwargs):
+            print('logging call')
+            self.func()
+
+
+    @Logging
+    @get_run_time(debug=False)
+    def my_func():
+        _list = [i for i in range(30 * 300)]
+        print('this is my_func')
+
+
+    # my_func = Logging(get_run_time(False)(my_func)) # 不使用语法糖的情况
+    my_func()
+
+
+</highlight-code>
+
+下面来看带参数的类装饰器：
+
+<highlight-code lang='python'>
+
+    def get_run_time(debug):
+        """
+        获取运行时间
+        """
+        flag = 'able' if debug else 'disable'
+        print(flag)
+
+        def f(func):
+            def _func(*args, **kwargs):
+                import time
+                start = time.time()
+                func(*args, **kwargs)
+                end = time.time()
+                run_time = end - start
+                print('run_time: {}'.format(run_time))
+
+            return _func
+
+        return f
+
+
+    class LoggingConfig:
+        """
+        带参数的类装饰器
+        """
+
+        def __init__(self, level='info'):
+            self.level = level
+
+        def __call__(self, func):
+            def wrapper(*args, **kwargs):
+                print(self.level)
+                func(*args, **kwargs)
+
+            return wrapper
+
+
+    @LoggingConfig('waring')
+    @get_run_time(debug=False)
+    def my_func():
+        _list = [i for i in range(30 * 300)]
+        print('this is my_func')
+
+
+    # my_func = LoggingConfig()(get_run_time(False)(my_func)) # 不使用语法糖的情况
+    my_func()
+
+</highlight-code>
+
+带参数的类装饰器情况还是比较特别的，之所以要这么写，理解 `LoggingConfig()(get_run_time(False)(my_func))` 就很明了了，类的参数要在类实例化的时候传入，所以把参数写在类 `__init__` 方法内，然后类需要实现`__call__` 方法，这个时候就是类的 `__call__` 要接收一个函数的引用，就是被装饰函数对象的引用。需要注意`@LoggingConfig()` 的括号不能去掉，不然 `__init__` 方法出错。
+
+来看最后一种情况，对类作用装饰器，这个时候可以把类也当成一个对象的引用，类似函数对象的引用，特别注意类要实例化，所以设计装饰器的时候，最后的返回很重要，大致会有两种情况：
+
+1. 返回类对象的引用，这种情况下，一般是利用装饰器对类进行类属性的操作，比如利用 `hasattr`判断类是否有特定属性，然后执行一些逻辑，最后返回类对象的引用：
+
+<highlight-code lang='python'>
+
+    def as_view(need_login=False):
+        def _auth(view_clz):
+            if need_login:
+                setattr(view_clz, 'need_login', True)
+            return view_clz
+
+        return _auth
+
+
+    @as_view() # 即使不传参数也不能省去括号，否则as_view(need_login=False) 的need_login就指向A
+    class A(object):
+        a = 1
+
+        def __init__(self, x=0):
+            self.x = x
+            if hasattr(A, 'need_login'):
+                print('need_login is {}'.format(getattr(A, 'need_login')))
+            else:
+                print('A not has need_login')
+
+
+    a = A(2)
+    print(a.x)
+
+</highlight-code>
+
+2. 返回类实例，这种情况，最内侧是返回一个函数对象的引用，这个函数对象的引用现在指向类，当我们实例化类的时候，就会调用这个函数对象的内容，而这个内容就是返回一个类的实例：
+
+<highlight-code lang='python'>
+
+    def as_view(login=False):
+        print('as_view is {}'.format(login))
+
+        def _wrapper(cls):
+            print('cls is {}'.format(cls))
+
+            def _instance(*args, **kwargs):
+                # setattr(cls, 'need_login', True) # 如果打开这一句，你会发现A仍然没有属性need_login
+                print('param is {}--{}'.format(args, kwargs))
+                return cls(*args, **kwargs)
+                # return cls 不能在这里返回类对象的引用，因为上一层返回的是_instance，是一个对象的引用
+
+            return _instance
+
+        return _wrapper
+
+
+    @as_view()
+    class A(object):
+        a = 1
+
+        def __init__(self, x=0):
+            self.x = x
+            if hasattr(A, 'need_login'):
+                print('need_login is {}'.format(getattr(A, 'need_login')))
+            else:
+                print('A not has need_login')
+
+
+    print(A.__name__) # 此时A已经指向_instance，即使你在上面添加了属性need_login，这个属性也不是A的，这是装饰器需要注意的地方，这对于情况一是不存在的，情况一是把对象的引用进行属性添加，返回的也是这个对象的引用，所以情况1 A.__name__ 仍然是 A。
+    a = A(2)
+    print(a.x)
+
+    # 结果：
+    # as_view is False
+    # cls is <class '__main__.A'>
+    # _instance
+    # param is (2,)--{}
+    # A not has need_login
+    # 2
+
+</highlight-code>
+
+一般在应用开发中，会使用情况一对类做一些属性限制，非常好用。
+
+- 函数装饰器，类装饰器：@staticmethod  类似这样的形式，其中staticmethod 也称为元函数，运用于类的称为类装饰器。装饰器在编写的时候，我们只要知道，装饰器是接受被装饰对象为参数，并将其重新赋值给装饰对象，依照此基础就可以来写装饰器。相对于类装饰器，更像是对类进行扩展，把类在装饰函数里面执行操作后（一般是添加属性等），然后返回本身。
+
+- 装饰器的理念是对原函数、对象的加强，相当于重新封装，所以一般装饰器函数都被命名为wrapper()，意义在于包装。函数只有在被调用时才会发挥其作用。比如@logging装饰器可以在函数执行时额外输出日志，@cache装饰过的函数可以缓存计算结果等等。
+
+- 而注解和特性则是对目标函数或对象添加一些属性，相当于将其分类。这些属性可以通过反射拿到，在程序运行时对不同的特性函数或对象加以干预。比如带有Setup的函数就当成准备步骤执行，或者找到所有带有TestMethod的函数依次执行等等。
+
+:green_apple:**装饰器陷阱：**
+
+使用装饰器需要注意两个地方，最好不要在装饰函数之外添加逻辑功能；使用了装饰器，函数签名会被改变。
+
+1. 第一种情况，如下实例代码：
+
+<highlight-code lang='python'>
+
+    def html_tags(tag_name):
+        print('begin outer function.')
+
+        def wrapper_(func):
+            print("begin of inner wrapper function.")
+
+            def wrapper(*args, **kwargs):
+                content = func(*args, **kwargs)
+                print("<{tag}>{content}</{tag}>".format(tag=tag_name, content=content))
+
+            print('end of inner wrapper function.')
+            return wrapper
+
+        print('end of outer function')
+        return wrapper_
+
+
+    # @html_tags('b')
+    def hello(name='Toby'):
+        return 'Hello {}!'.format(name)
+
+
+    hello = html_tags('b')(hello)
+
+    hello(name='Toby')
+    hello(name='Toby')
+
+</highlight-code>
+
+上述代码结果：
+
+    begin outer function.
+    end of outer function
+    begin of inner wrapper function.
+    end of inner wrapper function.
+    <b>Hello Toby!</b>
+    <b>Hello Toby!</b>
+
+因为装饰器在定义后就会执行了，因为Python的代码在定义的时候就会确定作用域，变量等，所以 `'end of inner wrapper function.'` 之上的代码在对hello使用装饰器后就会打印了。调用hello两次，只会执行装饰器函数里面的代码。
+
+即：`'print("<{tag}>{content}</{tag}>".format(tag=tag_name, content=content))'` 所以代码结果是这样的。
+
+所以最好不要在装饰器函数之外添加逻辑功能，这里的逻辑功能是print，如果是一些复杂的逻辑，`它只会在定义的时候执行一次`。
+
+2. 获取被装饰函数的函数签名，文档字符串等返回的将是闭包的函数信息。
+
+<highlight-code lang='python'>
+
+    def html_tags(tag_name):
+        print('begin outer function.')
+
+        def wrapper_(func):
+            print("begin of inner wrapper function.")
+
+            def wrapper(*args, **kwargs):
+                """
+                doc string
+                """
+                content = func(*args, **kwargs)
+                print("<{tag}>{content}</{tag}>".format(tag=tag_name, content=content))
+
+            print('end of inner wrapper function.')
+            return wrapper
+
+        print('end of outer function')
+        return wrapper_
+
+    # @html_tags('b')
+    def hello(name='Toby'):
+        """
+        hello doc string 
+        """
+        return 'Hello {}!'.format(name)
+
+
+    hello = html_tags('b')(hello)
+
+    hello(name='Toby')
+    hello(name='Toby')
+
+    import inspect
+
+    doc = inspect.getdoc(hello)
+
+    print(hello.__name__, doc) # wrapper doc string
+
+</highlight-code>
+
+原因就是因为使用@语法糖，原函数的引用被修改了：`hello = html_tags('b')(hello)`，那么新的hello的函数信息指向 `wrapper`。这是最容易发生问题的地方，尤其是使用多次装饰器，如果你需要这样的复杂逻辑，一定要小心对象的引用早已改变，如果还使用原对象名称进行操作，无疑是出BUG。
+
+如果需要原函数的信息，可以使用标准库 `functool.wrapt`，对闭包的函数进行装饰：
+
+<highlight-code lang='python'>
+
+    import functools
+
+    def html_tags(tag_name):
+        print('begin outer function.')
+
+        def wrapper_(func):
+            print("begin of inner wrapper function.")
+
+            @functools.wraps(func) # 在此运用装饰器
+            def wrapper(*args, **kwargs):
+                """
+                doc string
+                """
+                content = func(*args, **kwargs)
+                print("<{tag}>{content}</{tag}>".format(tag=tag_name, content=content))
+
+            print('end of inner wrapper function.')
+            return wrapper
+
+        print('end of outer function')
+        return wrapper_
+
+
+    # @html_tags('b')
+    def hello(name='Toby'):
+        """
+        hello doc string
+        """
+        return 'Hello {}!'.format(name)
+
+
+    hello = html_tags('b')(hello)
+
+    hello(name='Toby')
+    hello(name='Toby')
+
+    import inspect
+
+    doc = inspect.getdoc(hello)
+
+    print(hello.__name__, doc)
+
+    print(inspect.signature(hello)) # py3之前的版本仍然获取到闭包函数信息
+
+    print(inspect.getsource(hello)) # py3之前的版本仍然获取到闭包函数信息
+
+</highlight-code>
+
+输出如下：
+
+    begin outer function.
+    end of outer function
+    begin of inner wrapper function.
+    end of inner wrapper function.
+    <b>Hello Toby!</b>
+    <b>Hello Toby!</b>
+    hello hello doc string
+    (name='Toby')
+    def hello(name='Toby'):
+        """
+        hello doc string
+        """
+        return 'Hello {}!'.format(name)
+
+除了functool.wrapt模块，还可以使用第三方模块wrapt，如果使用该模块，要按照给定的规则来重新包装函数，和functool.wrapt直接使用装饰器相比需要改动代码，另外Python3.x之前functool.wrapt模块并不能得到函数签名和函数源码等，在3.x之后变得可行了。
+
+### 利用 __dict__ 做缓存
 
 实例方法可以利用装饰器变成属性，其实质是，方法本身也是类的一个属性，通过装饰器，让访问这个属性的时候传回方法计算后期待的值，实现了将方法变成属性。
 
@@ -1024,10 +1382,14 @@ class SS(object):
 </highlight-code>
 
 ### 避免循环递归
-```py
-def __getattribute__(self, item):
-    return object.__getattribute__(self, 'other')    
-```
+
+<highlight-code lang='python'>
+
+    def __getattribute__(self, item):
+        return object.__getattribute__(self, 'other')  
+
+</highlight-code>
+
 利用超类，传递的实例是本对象的。理解方法调用的时候传递的self很重要，你可以改实例，不使用隐式传参。
 
 对于赋值和删除也需要考虑这个问题，用超类来避免循环。或者用 `self.__dict__['other'] = other`，这个对于取属性不能用，因为取属性就要循环了。总结：取属性要特别注意，获取和删除不能直接对实例的属性进行赋值，要用超类的setattr方法或者实例的 `__dict__` 来赋值。

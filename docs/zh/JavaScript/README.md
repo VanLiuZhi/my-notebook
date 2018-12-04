@@ -29,12 +29,13 @@ JSON.parse(str)  parse用于从一个字符串中解析出json对象
 
 ## 取得url中get请求的参数
 
-```js
+<highlight-code lang='js'>
 	function getUrlParam(name){
-            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
-            var r = window.location.search.substr(1).match(reg);  
-            if (r != null) return decodeURI(r[2]); return null;
-``` 
+	  var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+	  var r = window.location.search.substr(1).match(reg);  
+	  if (r != null) return decodeURI(r[2]); return null;
+	}
+</highlight-code>
 
 ## ready 和 onload事件
 
@@ -68,12 +69,12 @@ js也有异常，不过很少见人使用。
 	<title>菜鸟教程(runoob.com)</title>
 	<script>
 	 function myFunction() {
-	    try {                 //错误判断
-			var x = document.getElementById("demo").value;
-			if (x == "") throw "值为空";
-			if (isNaN(x)) throw "不是数字";
-			if (x > 10) throw "太大";
-			if (x < 5) throw "太小";
+	   try {                 //错误判断
+		  var x = document.getElementById("demo").value;
+		  if (x == "") throw "值为空";
+		  if (isNaN(x)) throw "不是数字";
+		  if (x > 10) throw "太大";
+		  if (x < 5) throw "太小";
 		}
 		catch (err) {   //发生错误时在此执行，err为自定义错误 throw 对应的值，
 			var y = document.getElementById("mess");
@@ -84,14 +85,13 @@ js也有异常，不过很少见人使用。
 
 	<body>
 
-    <h1>我的第一个 JavaScript</h1>
-    <p>请输出一个 5 到 10 之间的数字:</p>
-    <input id="demo" type="text">
-    <button type="button" onclick="myFunction()">测试输入</button>
-    <p id="mess"></p>
+	<h1>我的第一个 JavaScript</h1>
+	<p>请输出一个 5 到 10 之间的数字:</p>
+	<input id="demo" type="text">
+	<button type="button" onclick="myFunction()">测试输入</button>
+	<p id="mess"></p>
 
 	</body>
-
 	</html>
 
 </highlight-code>
@@ -193,7 +193,7 @@ Attribute 属性； Event 事件； HTML 对象；
 
 ## 格式化字符串  
 ```js
-	`a${var}` 
+`a${var}` 
 ```
 如果var是1，result 为 a1。注意两边的符号为tab键上面的
 

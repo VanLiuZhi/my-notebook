@@ -7,6 +7,11 @@ import 'element-ui/lib/theme-chalk/index.css'
 import VueHighlightJS from 'vue-highlight.js'
 // import 'highlight.js/styles/monokai-sublime.css'
 import 'highlight.js/styles/dracula.css'
+// import 'highlight.js/styles/agate.css'
+// import 'highlight.js/styles/androidstudio.css'
+// import 'highlight.js/styles/atom-one-dark.css'
+// import 'highlight.js/styles/solarized-dark.css'
+// import 'highlight.js/styles/railscasts.css'
 
 const helper = require('./../helper/')
 

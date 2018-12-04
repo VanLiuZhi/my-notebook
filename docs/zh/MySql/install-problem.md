@@ -26,5 +26,19 @@ mysqld --help --verbose | less
 
 最后，使用编译源代码的方式，估计是最后的活路。
 
+## 报错：MySQL Illegal mix of collations for operation 'like'
+
+MySQL Illegal mix of collations for operation 'like'
+
+在 MySQL 5.5 以上, 若字段类型 Type 是 time,date,datetime 
+
+在 select时如果使用 like '%中文%' 会出现 Illegal mix of collations for operation 'like'
+
+在编程时要对每个字段进行查找，在执行时可能就会出现时间字段 like '%中文%' 这种语法，在旧版的 MySQL 是不会出现错误的。
+
+升到 MySQL 5.5 以上, 必需改成 like binary '%中文%' 即可避免出现错误。
+
+在python代码中，解决方案为使用cast(fields, CHAR)转换类型后再做like.(高mysql版本中使用like的使用，非字符类型和字符类型混合在filter条件中做like，就会导致这个问题)
+
 
 

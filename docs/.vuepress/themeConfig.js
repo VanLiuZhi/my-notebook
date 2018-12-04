@@ -78,7 +78,7 @@ module.exports = {
           children: [
             '/zh/JavaScript/npm', '/zh/JavaScript/nvm', '/zh/JavaScript/',
             '/zh/JavaScript/jQuery', '/zh/JavaScript/node', '/zh/JavaScript/ECMAScript',
-            '/zh/JavaScript/Vue'
+            '/zh/JavaScript/Vue', '/zh/JavaScript/element-UI'
           ]
         },
         {
@@ -142,6 +142,13 @@ module.exports = {
           collapsable: true,
           children: [
             '/zh/PythonUtil/'
+          ]
+        },
+        {
+          title: 'JavaScript工具',
+          collapsable: true,
+          children: [
+            '/zh/JavaScriptUtil/'
           ]
         },
         {

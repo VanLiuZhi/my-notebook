@@ -6,6 +6,8 @@ nvm 是 node的环境管理工具，可以同时安装多个node版本，具体�
 
 Mac 下安装使用github提供的脚本安装，安装完成添加对应shell的配置
 
+nvm 使用brew安装会有一些小问题 [正确的安装和使用nvm(mac)](https://www.imooc.com/article/14617)
+
 ```sh
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm

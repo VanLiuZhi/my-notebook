@@ -2,7 +2,15 @@
 sidebar: auto
 ---
 
-# 推荐库
+# 收藏内容，内容来自网络与个人整理
+
+## 注册码 
+
+[IntelliJ IDEA](http://idea.lanyus.com/)
+
+## 后端
+
+[申请Let's Encrypt永久免费SSL证书(来自简书)](https://www.jianshu.com/p/3ae2f024c291)
 
 ## 前端
 
@@ -256,3 +264,4 @@ sidebar: auto
 [get-plain-text](https://itunes.apple.com/cn/app/get-plain-text/) 能清除剪贴板里的格式 很实用
 
 [IINA](https://github.com/lhc70000/iina) mac 平台感觉免费最好的播放器 强推
+

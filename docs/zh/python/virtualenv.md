@@ -37,3 +37,21 @@ source  /  virtualenvwrapper.sh  路径
 我的流程： pip 安装  virtualenvwrapper  virtualenv  配置  ~/.bash_profile 为上面内容  把virtualenv添加符号链接
 
 source ~/.bash_profile(激活环境变量，让workon命令可以被执行到，仅本次登陆有效)
+
+## Anaconda
+
+该软件有新的包管理工具 conda 这个不仅是python，是一个其它语言也可以用的包管理工具。用conda命令安装的python包，会去寻找相关依赖，提示你需要安装依赖，并一起安装。而pip虽然也会连同依赖一起装（听说没有conda好），但是有些包不会（猜测依赖的机制是包自身的，有些第三方包没有做这个处理，导致你安装了后，运行报错还要去装其它的，个人猜测）。
+
+`conda env export > environment.yaml` 命令导出当前虚拟环境，可以用这个文件恢复虚拟环境。这个文件中有一个pip相关的信息，记录了该环境用pip安装的包。    
+
+虽然用了conda，但是还是有一些包没法安装，还得用pip安装（猜测是一些个人写的包，不出名，没在conda上记录，或者就是单纯的没有记录）conda 和 pip ，conda可以管理pip和自己安装的包（用conda list查看），pip好像不行，只能管理自己的。
+
+关于安装的时候是否选择添加到path，如果你电脑已经有了python，就不要选了。选了这个直接在命令行输入python，就会使用Anaconda的虚拟环境。
+
+在新的虚拟环境中执行 `pip install -r requirements.txt` 导入pip安装的包
+
+- activate 环境名称：进入对应环境    
+- conda env list：列出当前环境
+- mac下进入环境，前面加 source
+
+心得：Anaconda也用了一段时间，感觉并没有网上说的那么强大，对于一些科学计算，或者说是由其它语言编写，Python来调用的那种包，对，就是那种很高端的，是可以用conda安装管理的，但是像一些小包，尤其是纯Python写的，只有pip才能安装，这样你还是摆脱不了pip。

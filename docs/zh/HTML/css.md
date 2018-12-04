@@ -160,7 +160,6 @@ table{
     position:absolute;
 	width:200px;
 	background:#ccc;
-	
 }
 ```
 
@@ -236,8 +235,101 @@ Relative与Absolute组合使用
 
 比如设置left=50px   可以理解为此时盒子与浏览器左边相距50px，也就是盒子右移动50px
 
+补充：
+1. static（静态定位）：默认值。没有定位，元素出现在正常的流中（忽略 top, bottom, left, right 或者 z-index 声明）。
+2. relative（相对定位）：生成相对定位的元素，通过top,bottom,left,right的设置相对于其正常（原先本身）位置进行定位。可通过z-index进行层次分级。　　
+3. absolute（绝对定位）：生成绝对定位的元素，相对于 static 定位以外的第一个父元素进行定位。元素的位置通过 “left”, “top”, “right” 以及 “bottom” 属性进行规定。可通过z-index进行层次分级。
+4. fixed（固定定位）：生成绝对定位的元素，相对于浏览器窗口进行定位。元素的位置通过 “left”, “top”, “right” 以及 “bottom” 属性进行规定。可通过z-index进行层次分级。
+
+css 相对固定位置 处理方案：
+
+需要固定位置的时候，常使用 `position：fixed` 这种方式往往达不到理想的效果，我们经常需要的是容器在某个位置固定，这样你需要花时间去调整左右上下参数。可以让fixed定位的容器处在一个父容器内，父容器是relative定位的，这样我们固定定位的容器就不用调整位置了，以父容器为基准
+
+举例：
+
+<highlight-code lang='html'>
+    
+    <div style="position: relative;">
+            <div class="rich_text_class" style="position:fixed;" v-html="menu">
+            </div>
+    </div>
+
+</highlight-code>
+
 ## index-z  
+
 z序决定了dom的层级关系，数值越大的在最上层。关于宽度，父容器的宽度受到子dom的影响，可以调整让子dom的宽度不超过父容器，在设置width属性的时候，是块的宽加上内边距，可以改属性，让这个width只有块的宽决定。理解外边距和内边距和元素自己。块级元素才是占一行。
+
+## :hover 
+
+`:hover { }` css选择器中对被选中对象做操作，效果为鼠标指向时代码作用。例子鼠标指向时修改文字颜色（注意不能直接在便签中加style=color  先设置颜色，class设置的颜色就会失效，应该是遵循了就近原则）
+
+## 超出显示文字省略
+
+css3 超出显示文字省略 `text-overflow: ellipsis; white-space: nowrap; overflow: hidden;`
+
+设置行数，超出行数省略
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+
+把该样式作用于p标签上
+
+## 控制锚点
+
+1. js控制锚点跳转
+```
+<a name="anchor"></a>
+
+location.hash="anchor";
+
+不只有a其他元素也可以，比如在报表中：
+<tr id="tr1">...</tr>
+location.hash="tr1"
+
+或者用jQuery的动画滚动效果：
+var id="tr1";
+$('html,body').animate({scrollTop: $("tr#"+id).offset().top}, 500);
+```
+
+2. html控制锚点跳转
+```
+<a href="#btn">跳转到点击位置</a>
+<a name="btn" id="btn">点击</a>
+```
+
+3. 跨页面锚点跳转
+```
+代码如下:
+<a href="123.html#btn">跳到btn</a>
+<a name="btn" id="btn"></a>
+```
+
+4. js控制锚点跳转在HTML中实现方式
+
+```
+<!-- 假设一个需要跳转到的节点 -->
+<div id="divNode"><!-- contents --></div>
+
+<a href="#" onclick="
+    document.getElemetnById('divNode').scrollIntoView(true);
+    return false;">
+    通过scrollIntoView实现锚点效果
+</a>  
+```
+
+## box-sizing
+
+box-sizing属性用于更改用于计算元素宽度和高度的默认的 CSS 盒子模型。可以使用此属性来模拟不正确支持CSS盒子模型规范的浏览器的行为。
+
+简单来说就是改变盒子模型的计算方式，默认盒子模型，容器的width等于容器设置的width。如果box-sizing 设置为border-box 容器的宽度等于除外边距外的其它属性和。
+
+## cursor: pointer  
+
+`cursor: pointer` 运用了该属性，鼠标指上元素时变成“小手”
 
 ## 其它
 

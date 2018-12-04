@@ -8,38 +8,39 @@
     markdown 的table语法格式 自动生成代码，错误的地方需要手动处理一下
     """
 
-    op_str = 
-    '''
-    len(d) 返回字典元素个数
-    d[key] 返回key对应的value
-    d[key] = value 为字典元素赋值，如果没有则增加元素
-    del d[key] 删除字典元素
-    key in d/ key not in d 查看key是否在d中
-    iter(d) 返回一个迭代器，具有__next__()方法
-    clear() 清空
-    copy() 浅复制
-    fromkeys(seq[, value]) 以seq作为键，value作为值建立字典，默认value为None
-    get(key[, default]) 安全的get方法，如果不存在返回default，如果不指定default则报错
-    items() 列出一个键值对的view
-    keys() 列出key的view,通常用于遍历
-    values() Return a new view of the dictionary's values.
-    pop(key[, default]) 如果键值key存在与字典中，删除dict[key]，返回 dict[key]的value值。key值必须给出。否则，返回default值。如果default值没有过出，就会报出KeyError异常。pop()方法至少接受一个参数，最多接受两个参数。
-    popitem() 弹出一个键值对，为key的哈希序列中的第一个
-    setdefault(key[, default]) 安全的添加操作，如果存在就返回value不更改值，如果不存在添加一个key:default的表项，default默认为0
-    update([other]) 更改操作，other可以是键值对的列表或元组（二级的），也可以是字典，用other中的键值对添加到或替换原有键值对
+    op_str = '''
+    v-bind ：动态绑定数据。简写为“:” 。=> 以后的:class="{red:boolean}"
+    v-on ：绑定时间监听器。简写为“@”，例：@click="xxx"；
+    v-text ：更新数据，会覆盖已有结构。类似{{ msg }} ；
+    v-show ：根据值的真假，切换元素的display属性；
+    v-if ：根据值的真假，切换元素会被销毁、重建； => 在dom中已消失
+    v-else-if ：多条件判断，为真则渲染；
+    v-else ：条件都不符合时渲染；
+    v-for ：基于源数据多次渲染元素或模块；
+    v-model ：在表单控件元素（input等）上创建双向数据绑定（数据源）；
+    v-pre ：跳过元素和子元素的编译过程；
+    v-once ：只渲染一次，随后数据更新也不重新渲染；
+    v-cloak ：隐藏未编译的Mustache语法，在css中设置[v-cloak]{display:none;}
     '''
 
     _op_str = op_str.split('\n')
-
+    _op_str.pop()
     out_str = ''
-    max_str_len = 26  # pop(key[, default])
+    max_str_len = len('v-else-if')  # pop(key[, default])
     space = ' '
 
     for item in _op_str:
         tmp = item.split(' ')
-        tmp_str = "| {a}{space} | {b} \n".format(a=tmp[0], b=''.join(tmp[1:]), space=space * (max_str_len - len(tmp[0])))
+        if tmp[0] == '':
+            tmp_str = "| Command{space} | Description \n".format(space=space * (max_str_len - len('Command')))
+            tmp_str += "| {a} | :{b}: \n".format(a='-' * max_str_len, b='-' * (max_str_len - 2))
+        else:
+            tmp_str = "| {a}{space} | {b} \n".format(a=tmp[0], b=''.join(tmp[1:]), space=space * (max_str_len - len(tmp[0])))
         out_str += tmp_str
 
     print(out_str)
+
+    # print(len('Inheritor'))
+
 
 </highlight-code>

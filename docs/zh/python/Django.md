@@ -432,6 +432,12 @@ obj=Author.objects.get(username__exact=username)   #get 取得的是字段为use
 
 匹配的对象：在使用update的时候，需要注意，查询集才有这个方法，查询集实例没有，查询集有5个，update可以一次更新5张表的数据。
 
+### 分页实现
+
+两个参数 page，limit 每次都传这两个参数，决定了数据的截取位置和截取多少。
+
+`query[ (page-1)*limit : page*limit ]`
+
 ### 其它
 
 - 对于模型的新创建的实例，直接save()就行了，不能用 `save(update_fields=[])`，本来就没有字段，所以不能用。如果是QS的元素，考虑使用 `save(update_fields=[])`，它只更新特定的字段。 

@@ -68,30 +68,32 @@ js也有异常，不过很少见人使用。
 	<html>
 	<title>菜鸟教程(runoob.com)</title>
 	<script>
-	 function myFunction() {
-	   try {                 //错误判断
-		  var x = document.getElementById("demo").value;
-		  if (x == "") throw "值为空";
-		  if (isNaN(x)) throw "不是数字";
-		  if (x > 10) throw "太大";
-		  if (x < 5) throw "太小";
-		}
-		catch (err) {   //发生错误时在此执行，err为自定义错误 throw 对应的值，
-			var y = document.getElementById("mess");
-			y.innerHTML = "错误：" + err + "。";
-		}
-	 }
+	  function myFunction() {
+        try {
+            //错误判断
+            var x = document.getElementById("demo").value;
+            if (x == "") throw "值为空";
+            if (isNaN(x)) throw "不是数字";
+            if (x > 10) throw "太大";
+            if (x < 5) throw "太小";
+        } catch (err) {
+            //发生错误时在此执行，err为自定义错误 throw 对应的值，
+            var y = document.getElementById("mess");
+            y.innerHTML = "错误：" + err + "。";
+        }
+	  }
 	</script>
 
 	<body>
 
-	<h1>我的第一个 JavaScript</h1>
-	<p>请输出一个 5 到 10 之间的数字:</p>
-	<input id="demo" type="text">
-	<button type="button" onclick="myFunction()">测试输入</button>
-	<p id="mess"></p>
+		<h1>我的第一个 JavaScript</h1>
+		<p>请输出一个 5 到 10 之间的数字:</p>
+		<input id="demo" type="text">
+		<button type="button" onclick="myFunction()">测试输入</button>
+		<p id="mess"></p>
 
 	</body>
+
 	</html>
 
 </highlight-code>
@@ -187,9 +189,52 @@ Attribute 属性； Event 事件； HTML 对象；
 
 当然如果真的这样大面积的操作 DOM，性能会是一个很大的问题，所以 React 实现了一个虚拟 DOM，组件 DOM 结构就是映射到这个虚拟 DOM 上，React 在这个虚拟 DOM 上实现了一个 diff 算法，当要更新组件的时候，会通过 diff 寻找到要变更的 DOM 节点，再把这个修改更新到浏览器实际的 DOM 节点上，所以实际上不是真的渲染整个 DOM 树。这个虚拟 DOM 是一个纯粹的 JS 数据结构，所以性能会比原生 DOM 快很多。
 
+React的核心机制之一就是可以在内存中创建虚拟的DOM元素。React利用虚拟DOM来减少对实际DOM的操作从而提升性能。 
+
 ## indexOf
 
 数组过滤。indexOf作用是返回字符串第一次出现在给定字符串的index，可以用来处理某个字符串有没有在给定字符串中。  给定 `str.indexOf(某个字符串) = 0` 说明第一个就匹配到，这个给定字符串。如果是空格分隔的，如几个单词，那么结果就不一定是0了，因为会在后面的位置。记住是给定来调用这个方法就行了
+
+补充：
+
+js array indexOf 参数是对象的时候，不一定能返回对应位置的index(有的时候可以，我查了资料，有人是这么说的：让数组去判断`一个新创建的对象`，所以会得到 -1。我在vue中，把循环出来的元素做为参数去在原数组中判断，是可以的，不是循环出来的对象，虽然对象和数组元素字面看起来一摸一样，但是不行，猜测这和底层有关) 所以这个东西的使用，要很小心
+推荐使用 `Array.findIndex()`
+
+findIndex()方法返回数组中满足提供的测试函数的第一个元素的索引。否则返回-1。
+
+<highlight-code lang='js'>
+
+	var array1 = [5, 12, 8, 130, 44];
+
+	function findFirstLargeNumber(element) {
+	  return element > 13;
+	}
+
+	console.log(array1.findIndex(findFirstLargeNumber));
+	// expected output: 3
+
+</highlight-code>
+
+find() 方法返回数组中满足提供的测试函数的第一个元素的值。否则返回 undefined。
+
+<highlight-code lang='js'>
+
+	var array1 = [5, 12, 8, 130, 44];
+
+	var found = array1.find(function(element) {
+	return element > 10;
+	});
+
+	console.log(found);
+	// expected output: 12
+
+</highlight-code>
+
+通过find，findIndex可以完成很多的事情，少用通过各种方法获取索引，然后再去 `array[index]`。find就可以了
+
+更详细的使用查看文档。[文档地址](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Array/find)
+
+我发现这个从列表中给出来的数据，你不段的引用，其中一个引用改了，也会影响到原数组。
 
 ## 格式化字符串  
 ```js
@@ -216,3 +261,21 @@ console.log(Object.keys(obj)); // console: ['a', 'b', 'c']
 ## length  
 
 只对字符串和数组有用，整形数字和对象返回未定义undefined
+
+## includes  
+
+数组调用，监测数组是否包含给定的元素 `array.include(0)` 返回boolean
+
+## this
+
+箭头函数与普通函数中的this指向不一样，前者基于定义时的上下文环境，后者则只是基于调用者。
+
+## typeof cb == "function" && cb()
+
+强大的js总有一些没见过的用法
+
+`function delay(time, cb) { typeof cb == "function" && cb(time) } `
+
+`cb&&cb(value)` 的意思是：
+- 如果cb为真（有值），那么执行cb(value)；
+- 如果cb为假，&&短路，那么不执行cb(value)。

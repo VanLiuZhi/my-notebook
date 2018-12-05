@@ -69,7 +69,7 @@ module.exports = {
             '/zh/Python/collections', '/zh/Python-asyncio/',
             '/zh/Python/Django', '/zh/Python/Flask', '/zh/Python/',
             '/zh/Python/virtualenv', '/zh/Python/pytest',
-            '/zh/Python-socket/', '/zh/Python-threading/'
+            '/zh/Python-socket/', '/zh/Python-threading/', '/zh/Python/gunicorn'
           ]
         },
         {
@@ -113,7 +113,8 @@ module.exports = {
           title: 'Web',
           collapsable: true,
           children: [
-            '/zh/Web/http-protocol', '/zh/Web/ssl-credential', '/zh/Web/other', 
+            '/zh/Web/http-protocol', '/zh/Web/ssl-credential', 
+            '/zh/Web/Nginx'
           ]
         },
         {

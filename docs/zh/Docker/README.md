@@ -1,11 +1,27 @@
 ---
-sidebar: auto
-collapsable: false,
+sidebarDepth: 2
 ---
 
 # Docker 笔记
 ---
 ![image](/my-notebook/images/docker/docker.png)
+
+## 命令
+
+    docker ps 
+    docker container ls
+
+两个命令都是查看正在运行的容器，加 -a 参数可以查看更多的信息
+
+    docker run     docker container run   都是运行容器
+    Ctrl+P+Q  退出容器不关闭
+
+    docker start goofy_almeida  启动容器在后台运行
+    docker attach goofy_almeida 后台容器进入终端
+
+    docker network create <name>
+    docker network inspect <name>
+
 
 ## 容器连接
 容器连接就是把容器接到一起，让它们可以相互通信，如果你使用一个容器运行一个软件的方式，容器连接就是很有必要的，比如你的服务和数据库进行通信，那么你的容器就要连接在一起。
@@ -112,7 +128,14 @@ docker attach goofy_almeida 后台容器进入终端
 
 
 使用 `docker attach` 命令进入container（容器）有一个缺点，那就是每次从container中退出到前台时，container也跟着退出了。
-要想退出container时，让container仍然在后台运行着，可以使用 `docker exec -it` 命令。每次使用这个命令进入container，当退出container后，container仍然在后台运行，命令使用方法： `docker exec -it goofy_almeida /bin/bash` goofy_almeida：要启动的container的名称。
+要想退出container时，让container仍然在后台运行着，可以使用 `docker exec -it` 命令。每次使用这个命令进入container，当退出container后，container仍然在后台运行，命令使用方法：
+```s
+docker exec -it goofy_almeida /bin/bash
+
+goofy_almeida：要启动的container的名称
+
+/bin/bash：在container中启动一个bash shell
+```
 这样输入“exit”或者按键“Ctrl + C”退出container时，这个container仍然在后台运行。
 
 ::: tip
@@ -124,6 +147,24 @@ run 命令后从镜像创建container(容器)，此时的容器是新的，如�
 ::: tip 容器的status
 One of created, restarting, running, removing, paused, exited, or dead
 :::
+
+## 容器导入导出
+
+    docker save imageID > filename.tar
+    docker load < filename.tar
+
+    docker export imageID > filename.tar
+    docker import < filename.tar
+
+镜像和容器导出和导入的区别
+
+镜像导入和容器导入的区别：
+1. 容器导入 是将当前容器 变成一个新的镜像
+2. 镜像导入 是复制的过程
+
+save 和 export区别：
+1. save 保存镜像所有的信息-包含历史
+2. export 只导出当前的信息
 
 ## Dockerfile 使用
 除了通过拉取官方镜像的方式外，使用Dockerfile可以定制镜像，使其更加灵活。

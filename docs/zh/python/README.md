@@ -114,20 +114,89 @@ Python 用下划线作为变量前缀和后缀指定特殊变量/方法。
 
 核心风格：避免用下划线作为变量名的开始。
 
-因为下划线对解释器有特殊的意义，而且是内建标识符所使用的符号，我们建议程序员避免用下划线作为变量名的开始。一般来讲，变量名 `_object` 被看作是“私有 的”，在模块或类外不可以使用，不能用 `'from moduleimport *'` 导入。当变量是私有的时候，用 `_object` 来表示变量是很好的习惯。因为变量名 `__object__` 对Python来说有特殊含义，对于普通的变量应当避免这种命名风格。
+因为下划线对解释器有特殊的意义，而且是内建标识符所使用的符号，我们建议程序员避免用下划线作为变量名的开始。一般来讲，变量名 `_object` 被看作是“私有 的”，在模块或类外不可以使用，不能用 `'from moduleimport *'`(这种情况单双下划线都适用，而且只是用了*号不能导入，导入整个模块，或直接导入下划线开头的模块都是可行的) 导入。当变量是私有的时候，用 `_object` 来表示变量是很好的习惯。因为变量名 `__object__` 对Python来说有特殊含义，对于普通的变量应当避免这种命名风格。
 
-python有关private的描述，python中不存在protected的概念，要么是public要么就是private，但是python中的private不像C++, Java那样，它并不是真正意义上的private，通过name mangling（名称改编(目的就是以防子类意外重写基类的方法或者属性)，即前面加上“单下划线”+类名,eg：_Class__object）机制就可以访问private了。
+python有关private的描述，python中不存在protected的概念，要么是public要么就是private，但是python中的private不像C++, Java那样，它并不是真正意义上的private，通过name mangling（名称改编(目的就是以防子类意外重写基类的方法或者属性)，即前面加上“单下划线”+类名，eg：instance._Class__object）机制就可以访问private了。
 
-"单下划线" 开始的成员变量叫做保护变量，意思是只有类对象和子类对象自己能访问到这些变量；"双下划线" 开始的是私有成员，意思是只有类对象自己能访问，连子类对象也不能访问到这个数据。(如下列所示)
-以单下划线开头 `（_foo）` 的代表不能直接访问的类属性，需通过类提供的接口进行访问，不能用 `“from xxx import *”` 而导入；以双下划线开头的 `（__foo）` 代表类的私有成员；以双下划线开头和结尾的 `（__foo__）` 代表python里特殊方法专用的标识，如 `__init__（）` 代表类的构造函数。
+**"单下划线"**：使用单下划线定义的属性或变量，它表示该方法或者属性是该类型的私有方法或属性。但其实在Python中不存在真正意义上的私有方法或者属性，前面加单下划线_只是表示你不应该去访问这个方法或者属性，因为它不是接口的一部分。
+
+这个意思其实是一种定义，约束，你非要去访问也可以，所以在代码中我们看到单下划线开头的对象，就是让你不要去访问它。举个例子，在Django关于froms的代码中：
+
+<highlight-code lang='python'>
+
+    class BaseForm(StrAndUnicode):
+    
+        def __init__(self, data=None, files=None, auto_id='id_%s', prefix=None):
+            # ...
+            self._errors = None  # Stores the errors after clean() has been called.
+
+        @property
+        def errors(self):
+            """Return an ErrorDict for the data provided for the form."""
+            if self._errors is None:
+                self.full_clean()
+            return self._errors
+
+</highlight-code>
+
+这段代码截取自Django框架，可以看到_errors属性是私有的，它在clean()方法调用后被赋值，如果要查看错误，访问errors属性，而不是（也不应该）访问_errors获取错误信息。所以多看看源代码，学习其编程风格，有些人在命名变量的时候，同名的被使用了，就加个下划线，这是错误的风格。
+
+**"双下划线"**：双下划线开头的变量也是设计成私有的概念，不过区别于单下划线，它确实不能直接访问，Python中不存在真正意义上的私有变量。对于双下划线开头的方法和属性虽然我们不能直接引用，那是因为Python默认在其前面加了前缀_类名，通过特别的机制（变量轧压）可以访问到。官方设计双下划线的目的，可以在继承中防止方法被覆写。
+
+<highlight-code lang='python'>
+
+    class A:
+        def __method(self):
+            print('__method in class A')
+
+        def _method(self):
+            print('_method in class A')
+
+        def run_method(self):
+            print(hasattr(a, '__method'))  # False
+            self.__method()
+            self._method()
+
+
+    class B(A):
+
+        def __method(self):
+            print('__method in class B')
+
+        def _method(self):
+            print('_method in class B')
+
+
+    a = A()
+    a.run_method()
+
+    # output:
+    # __method in class A
+    # _method in class A
+    # 很正常的输出，没有问题
+
+    b = B()
+    b.run_method()
+
+    # output
+    # __method in class A
+    # _method in class B
+    # 在解释器编译代码后，会进行变量轧压，或称为属性扩展，A类的__method变成了_A__method
+    # 所以实例a，b去执行self.__method()都是去访问属性_A__method，print(dir(a))可以看到
+    # _A__method在输出列表中，像hasattr等方法，要用_A__method作为属性名称
+
+</highlight-code>
+
 
 变量轧压：Python把以两个或以上下划线字符开头且没有以两个或以上下划线结尾的变量当作私有变量。私有变量会在代码生成之前被转换为长格式（变为公有）。转换机制是这样的：在变量前端插入类名，再在前端加入一个下划线字符。这就是所谓的私有 `变量轧压`（Private name mangling）。
 
-属性扩张：一个属性命名前加了2个下划线，属性会扩展为  _类__属性，属性扩展后，要用扩展后的变量名去获取属性。
+属性扩张：一个属性命名前加了2个下划线，属性会扩展为`_类__属性`，属性扩展后，要用扩展后的变量名去获取属性。
 
 注意：
 - 一是因为轧压会使标识符变长，当超过255的时候，Python会切断，要注意因此引起的命名冲突。
 - 二是当类名全部以下划线命名的时候，Python就不再执行轧压。
+
+总结：理解单双下划线，Python私有变量的真正含义，它并不是语法严格限制，而是一种设计或风格，什么是变量轧压，使用了单双下划线后，`from moduleimport *` 要注意。
 
 ## 特殊方法
 
@@ -311,6 +380,8 @@ d = datetime.datetime.fromtimestamp(timeStamp)
 
 `d.timestapo()`，3.0 datetime模块时间对象的方法，如果是2.0，先把时间对象转换成时间元组，利用time模块的time.mktime(t)也可以得到时间戳。
 
+由于time模块的时间对象是 `struct_time` 元组，并不是很好用，所以推荐获取时间戳用time.time()，其余时间处理都使用datetime，然后利用 `datetime.datetime.fromtimestamp(time.time())` 可以由时间戳转换为时间对象。
+
 时间对象处理注意：
 
 `seconds` 是 `timedelta` 对象的属性，datetime不能调用这个属性，即对时间计算才能使用这个属性。另外利用这个去做时间比较不是很靠谱，如果你的差超过了一天，那么转换的秒数溢出了，会显示0，而且如果是负数（理论值），但是时间是没有负秒数的，所以显示会和实际不符（猜测显示的可能为补码的结果）最好的时间差处理是，利用datetie.timedelte加出时间差和现在时间做比较大小。
@@ -329,16 +400,18 @@ d = datetime.datetime.fromtimestamp(timeStamp)
 
 - 复制（浅拷贝）`s[:]   or  s.copy()`
 
-- `s.extend(t)  or  s += t` 在后面插入一组，相当于 `+=`
+- `s.extend(t)  or  s += t` 在后面插入一组，相当于 `+=`，区别于append，append的参数是一个元素，元素可以是list，dict
 
-- `s.insert(i, x)` 在i处插入x (等价于 `s[i:i] = [x]`)
+- `s.insert(i, x)` 在i处插入x(可以是任意对象)
 
 - 清空：`del s[:]   or   s.clear()`
 
-- 删除：`s.pop([i])` 默认删除尾部元素，否则删除i处的元素，`s.remove(x)` 删除第一个等于x的元素
+- 删除：`s.pop([i])` 默认删除尾部元素，否则删除i处的元素(在删除索引处元素时，相比于del感觉风格要好一点)，`s.remove(x)` 删除第一个等于x的元素
 `s.reverse()` 列表反向
 
-:sunny:上面这几个操作 `pop` 有返回值，其它都没有
+:sunny:上面这几个操作 `pop` 有返回值，其它都没有，所以你不能把v = list.append(1) v的值为append方法的返回值None
+
+- range快速生成列表，在3x中，返回的是迭代器(3.x中很多类似函数都返回了迭代器)，如果要步进是小数，需要自己实现，Python不提供这样的函数
 
 2. 基本哈希存储结构——字典
 
@@ -356,8 +429,8 @@ d = datetime.datetime.fromtimestamp(timeStamp)
 | get(key[,default])         | 安全的get方法，如果不存在返回default，如果不指定default则报错 
 | items()                    | 列出一个键值对的view 
 | keys()                     | 列出key的view,通常用于遍历 
-| values()                   | Returnanewviewofthedictionary'svalues. 
-| pop(key[,default])         | 如果键值key存在与字典中，删除dict[key]，返回dict[key]的value值。key值必须给出。否则，返回default值。如果default值没有过出，就会报出KeyError异常。pop()方法至少接受一个参数，最多接受两个参数。 
+| values()                   | Return a new view of the dictionary's values. 
+| pop(key[,default])         | 如果键值key存在与字典中，删除dict[key]，返回dict[key]的value值。key值必须给出。否则，返回default值。如果default值没有过出，就会报出KeyError异常。pop()方法至少接受一个参数，最多接受两个参数。
 | popitem()                  | 弹出一个键值对，为key的哈希序列中的第一个 
 | setdefault(key[,default])  | 安全的添加操作，如果存在就返回value不更改值，如果不存在添加一个key:default的表项，default默认为0 
 | update([other])            | 更改操作，other可以是键值对的列表或元组（二级的），也可以是字典，用other中的键值对添加到或替换原有键值对 
@@ -376,6 +449,79 @@ python dict函数：一般用法传入关键字，其它方法：
 2. dict([('one', 1), ('two', 2), ('three', 3)])    # 可迭代对象方式来构造字典
 
 `python setdefault（key, default）` 不是设置值，而是返回结果，当键不存在的时候，才会去设置值，并返回设置了的值。如果你没写default，而键不存在，则返回None，必须注意返回的值是字典的键对应的值，不是这个字典。
+
+:sunny:切片补充：
+
+总有人面试出一些诡异的问题，在切片中，做了以下的总结：
+1. 切片超过索引不会报错
+2. 关于步进：步进的值不能是0(0报错)，可以是正数或负数，符号影响切片的方向，正号从左向右切，符号相反，值代表步进多少
+3. start和end，start不能大于end（这里的大于应该从切片的位置来考虑，不能看数值，即开始切片的位置不能在end后面）否则切片结果为空，注意在负步进中，也是从start切到end，不过从右边开始切
+4. start和end可以是负索引，和列表操作一样，当list很长，你不知道最后的索引是多少时，可以用负索引，10为list长度，正索引范围是0到9负索引范围是-1到-11
+5. 切片是不会循环的，步进决定切片方向，正负索引要从它的实际位置来做运算，字符串和tuple也可以切片
+
+举例：
+
+<highlight-code lang='python'>
+
+    list_data = list(range(0, 10))
+
+    print(list_data)
+    print(list_data[20:30])
+    # [] # 超范围为空
+    print(list_data[-1:9])
+    # [] 根据第3点，数值满足，但是切的位置不满足，-1相当于是索引9的位置
+    print(list_data[-9:-4])
+    # [1, 2, 3, 4, 5]
+    print(list_data[-9:-4:-1])
+    # [] 一定要注意，步进不是加负号就倒叙
+    print(list_data[9:-8:-2])
+    # [9, 7, 5, 3]，负步进是反向切片，所以用正步进实现不了
+
+</highlight-code>
+
+## 浮点数精度
+
+以下情况就是精度损失造成的
+
+    print(0.1 * 3) # 0.30000000000000004
+
+为什么会有精度损失：
+
+Python 中使用双精度浮点数来存储小数。在 Python 使用的 IEEE 754 标准（52M/11E/1S）中，8字节64位存储空间分配了52位来存储浮点数的有效数字，11位存储指数，1位存储正负号，即这是一种二进制版的科学计数法格式。虽然52位有效数字看起来很多，但麻烦之处在于，二进制小数在表示有理数时极易遇到无限循环的问题。
+
+所以在使用float的时候，千万要小心精度，推荐金钱计算使用decimal
+
+精度控制round函数，注意它的四舍五入比较特殊，不是单纯的记一个四舍五入，round() 如果只有一个数作为参数，不指定位数的时候，返回的是一个整数，而且是最靠近的整数（这点上类似四舍五入）。但是当出现.5的时候，两边的距离都一样，round()取靠近的偶数，这就是为什么round(2.5) = 2。当指定取舍的小数点位数的时候，一般情况也是使用四舍五入的规则，但是碰到.5的这样情况，如果要取舍的位数前的小树是奇数，则直接舍弃，如果偶数这向上取舍。(这个函数的用法非常的扯淡，不如decimal好)
+
+:::tip
+Note The behavior of round() for floats can be surprising: for example, round(2.675, 2) gives 2.67 instead of the expected 2.68. This is not a bug: it’s a result of the fact that most decimal fractions can’t be represented exactly as a float. See Floating Point Arithmetic: Issues and Limitations for more information.
+根据官方的说法，是看浮点数被省略后，尽量取接近的值
+:::
+
+1. 不指定小数点位数, 即取整数, 四舍五入: (取到哪一位的后面一位, 若遇到.5 奇进偶不进)
+```
+round(2.3)   2.0
+round(2.6)   3.0
+round(2.5)   2.0
+round(1.5)   2.0
+```
+2. 指定小数点位数, 即有小数位, 四舍五入: (取到哪一位的后面一位, 若遇到.5 偶进奇不进)
+```
+round(2.635,2)  2.63
+round(2.645,2)  2.65
+round(2.655,2)  2.65
+round(2.665,2)  2.67
+round(2.675,2)  2.67
+```
+
+## / 和 //
+
+6.0 / 3.0 = 2.0，6.0，3.0是浮点数，那么结果也是浮点数2.0，更精确的说，只要" / " 两边有一个数是浮点数，那么结果就是浮点数。
+
+在Python2.2版本以前也是这么规定的，但是，Python的设计者认为这么做不符合Python简单明了的特性，于是乎就在Python2.2以及以后的版本中增加了一个算术运算符" // "来表示整数除法，返回不大于结果的一个最大的整数，而" / " 则单纯的表示浮点数除法，但是，为了折中，所有2.X版本中，也是为了向后兼容，如果要使用" // "，就必须加上一条语句：`from __future__ import division`
+一看到这句，" / "就表示 浮点数除法，返回浮点结果，" // "表示整数除法。
+
+但是，在Python3.0时，就没有这种折中情况了，" / "就一定表示`浮点数除法`，返回浮点结果，" // "表示`整数除法`。
 
 ## __slots__
 

@@ -89,4 +89,242 @@ a和b都是 32位 整数么？
 - 一直持续，所以b最终会变为0。因此重复做上述操作就可以
 - 求得a + b的值。
 
+## 冒泡排序
 
+<highlight-code lang='python'>
+
+    def bubbleSort(relist):
+        len_ = len(relist)
+        for i in range(len_):
+            for j in range(0, len_ - i - 1):
+                if relist[j] > relist[j + 1]:
+                    relist[j + 1], relist[j] = relist[j], relist[j + 1]
+        return relist
+
+
+    # print(bubbleSort([1, 5, 2, 6, 9, 3]))
+
+
+    def bubbleSort2(inlist):
+        len_ = len(inlist)
+        for i in range(len_):
+            for j in range(len_ - i - 1):
+                if inlist[j] > inlist[j + 1]:
+                    inlist[j + 1], inlist[j] = inlist[j], inlist[j + 1]
+        return inlist
+
+
+    # print(bubbleSort2([1, 5, 2, 6, 9, 3]))
+
+</highlight-code>
+
+## 快速排序
+
+<highlight-code lang='python'>
+
+    def quickSort(array):
+        if len(array) < 2:
+            return array
+        else:
+            pivot = array[0]
+            less = [i for i in array[1:] if i < pivot]
+            greater = [j for j in array[1:] if j > pivot]
+            return quickSort(less) + [pivot] + quickSort(greater)
+
+
+    print(quickSort([1, 5, 2, 6, 9, 3]))
+
+    # 快排 分片的思想+递归的思想，这是取了第一个为基准值，栈高为O(log(n)),栈长O(n),所以运行时间为栈高x栈长，也就是算法平均运算时间为O(nlog(n))
+    def quickSort2(array):
+        if len(array) < 2:
+            return array
+        else:
+            piovt = array[0]
+            less = [i for i in array[1:] if i< piovt]
+            greater = [j for j in array[1:] if j>piovt]
+            return quickSort2(less) + [piovt] + quickSort2(greater)
+
+    print(quickSort2([1, 5, 2, 6, 9, 3]))
+
+</highlight-code>
+
+## 范围内的质数
+
+<highlight-code lang='python'>
+
+    def func():
+        res = []
+        for i in range(1, 101):
+            if compute(i):
+                pass
+            else:
+                res.append(i)
+        return res
+
+
+    def compute(value):
+        flag = False
+        if value <= 2:
+            return False
+        for i in range(2, value - 1):
+            r = value % i
+            if not r:
+                flag = True
+        return flag
+
+    print(func())
+
+</highlight-code>
+
+## 二叉数遍历
+
+<highlight-code lang='python'>
+
+    class BinaryTreeNode(object):
+        def __init__(self, data=None, left=None, right=None):
+            self.data = data
+            self.left = left
+            self.right = right
+
+
+    class BinaryTree(object):
+        """docstring for BinaryTree"""
+
+        def __init__(self, root=None):
+            self.root = root
+
+        def is_empty(self):
+            return self.root == None
+
+        def preOrder(self, this_Node):
+            if this_Node == None:
+                return
+            print(this_Node.data)
+            self.preOrder(this_Node.left)
+            self.preOrder(this_Node.right)
+
+        def inOrder(self, this_Node):
+            if this_Node == None:
+                return
+            self.inOrder(this_Node.left)
+
+            print(this_Node.data)
+            self.inOrder(this_Node.right)
+
+        def postOrder(self, this_Node):
+            if this_Node == None:
+                return
+            self.postOrder(this_Node.left)
+            self.postOrder(this_Node.right)
+            print(this_Node.data)
+
+        def levelOrder(self, this_Node):
+            if this_Node == None:
+                return
+            _queue = []
+            _queue.append(this_Node)
+            while _queue:
+                node = _queue.pop(0)
+                print(node.data)
+                if node.left != None:
+                    _queue.append(node.left)
+                if node.right != None:
+                    _queue.append(node.right)
+
+        def deep(self, root):
+            if not root:
+                return
+            print(root.data)
+            self.deep(root.left)
+            self.deep(root.right)
+
+        def deepTree(self, root):
+            if root == None:
+                return 0
+            ld = self.deepTree(root.left)
+            rd = self.deepTree(root.right)
+            return max(ld, rd) + 1
+
+
+    n1 = BinaryTreeNode(data="D")
+    n2 = BinaryTreeNode(data="E")
+    n3 = BinaryTreeNode(data="F")
+    n4 = BinaryTreeNode(data="B", left=n1, right=n2)
+    n5 = BinaryTreeNode(data="C", left=n3, right=None)
+    root = BinaryTreeNode(data="A", left=n4, right=n5)
+
+    bt = BinaryTree(root)
+
+    bt = BinaryTree(root)
+    # print('先序遍历')
+    # bt.preOrder(bt.root)
+    # print('中序遍历')
+    # bt.inOrder(bt.root)
+    # print('后序遍历')
+    # bt.postOrder(bt.root)
+    bt.levelOrder(root)
+
+    # print bt.deepTree(bt.root)
+
+</highlight-code>
+
+## 斐波那契数列
+
+<highlight-code lang='python'>
+
+    def flb(num):
+        result = None
+        n, a, b = 0, 0, 1
+        while n < num:
+            print(b)
+            result = b
+            a, b = b, a + b
+            n += 1
+        return result
+
+
+    a = flb(6)
+    print(a)
+
+</highlight-code>
+
+## 跳台阶
+
+<highlight-code lang='python'>
+
+    # def jump_floor(number):
+    #     if number <= 2:
+    #         return number
+    #     prev, curr = 1, 2
+    #     for _ in range(3, number + 1):
+    #         prev, curr = curr, prev + curr
+    #         print(curr)
+    #     return curr
+
+
+    # print(jump_floor(5))
+
+
+    def jump(time):
+        if time <= 2:
+            return time
+        a, b = 1, 2
+        for i in range(3, time + 1):
+            a, b = b, a + b
+        return b
+
+
+    # print(jump(6))
+
+
+    # def jumpm(time):
+    #     if time == 0:
+    #         return 0
+    #     return 2 ** (time - 1)
+    #
+    #
+    # fff = lambda a: a if a <= 2 else (fff(a - 1) + fff(a - 2))
+    #
+    # print(fff(6))
+
+</highlight-code>

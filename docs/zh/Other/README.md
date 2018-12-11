@@ -37,7 +37,7 @@ csv文件，使用逗号分隔，这种格式的文本可以导到excel
 
 进程间通信（Inter Process Communication，IPC）
 
-POSIX表示可移植操作系统接口（Portable Operating System Interface of UNIX，缩写为 POSIX ）
+POSIX表示可移植操作系统接口（Portable Operating System Interface of UNIX，缩写为 POSIX ）这个标准制定了一些通用的东西，方便大家在实现的时候做到通用性，那么移植就不会有太大的问题了
 
 SMP：对称多处理结构，一个计算机上使用多个CPU，而内存，总线是共享的
 

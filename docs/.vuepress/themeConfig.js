@@ -69,7 +69,7 @@ module.exports = {
             '/zh/Python/collections', '/zh/Python-asyncio/',
             '/zh/Python/Django', '/zh/Python/Flask', '/zh/Python/',
             '/zh/Python/virtualenv', '/zh/Python/pytest',
-            '/zh/Python-socket/', '/zh/Python-threading/', '/zh/Python/gunicorn'
+            '/zh/Python-socket/', '/zh/Python-threading/', '/zh/Python-multiprocessing/', '/zh/Python/gunicorn'
           ]
         },
         {

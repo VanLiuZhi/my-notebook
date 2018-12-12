@@ -21,7 +21,7 @@ module.exports = {
   locales: {
     '/': {
       lang: 'zh-CN',
-      title: 'VanLiuZhi',
+      title: '个人网站',
       description: 'liuzhi notebook',
       serviceWorker: {
         updatePopup: {

@@ -1722,3 +1722,11 @@ a = a^b
 ## ASCII
 
 `ord()` 函数接受一个字符，转换成ASII码。`chr()` 接受一个整型ASII变量，转换成字符
+
+## logging 模块
+
+logging模块很灵活，是项目必备的模块，日志级别 `CRITICAL > ERROR > WARNING > INFO > DEBUG`，默认logger的level是logging.WARNING，低于该级别的就不输出了。
+
+在导入模块后，通过logging.basicConfig(level=logging.NOTSET)来配置日志级别，这里设置为NOTSET，所有级别都会被输出（貌似和设置DEBUG级别是一样的效果，感觉作用在于重写类对象，新增加级别的时候设置NOTSET可以不受控制）
+
+

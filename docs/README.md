@@ -10,6 +10,7 @@ contacts:
   - href: //segmentfault.com/u/justicelz
     desc: SegmentFault
     type: segmentfault
+footer: MIT Licensed | Copyright © 2018-VanLiuZhi
 ---
 
 <Contact />

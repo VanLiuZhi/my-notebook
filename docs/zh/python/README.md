@@ -989,16 +989,18 @@ python 扩展内置类型：一般情况，通过继承内置类型，重载运�
 
 只在新式类中，继承搜索是从左到右，广度优先。
 
-经典类：
+py2继承object的才是新式类，py3写不写object都是新式类
+
+经典类py2中：
 
 <highlight-code lang='python'>
 
-    class P1(object):
+    class P1:
         def foo(self):
             print('p1-foo')
 
 
-    class P2(object):
+    class P2:
         def foo(self):
             print('p2-foo')
 

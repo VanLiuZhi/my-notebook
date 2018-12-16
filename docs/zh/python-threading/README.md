@@ -361,6 +361,39 @@ dis.dis(foo)
 - queue.task_done() 在完成一项工作之后，queue.task_done()函数向任务已经完成的队列发送一个信号
 - queue.join() 实际上意味着等到队列为空，再执行别的操作
 
+## 本地线程
+
+不同的线程对内容的修改只在线程内发挥作用，线程之间互相不影响
+
+<highlight-code lang='python'>
+
+    import threading
+
+    my_data = threading.local()
+    my_data.number = 42
+    print(my_data.number)
+    log = []
+
+    def f():
+        my_data.number = 11
+        log.append(my_data.number)
+        print(id(my_data.number))
+
+    thread = threading.Thread(target=f)
+    thread.start()
+    thread.join()
+    print(log)
+    print(my_data.number)
+    print(id(my_data.number))
+
+    # 42
+    # 4559721904
+    # [11]
+    # 42
+    # 4559722896
+
+</highlight-code>
+
 ## 总结
 
 所以线程的执行结果是有很多因素影响的，在你用默认操作的时候，如果进行了IO密集任务或是CPU密集任务，IO密集在等待时会释放GIL，CPU密集也会执行一定数量的字节码后释放一下GIL，由于线程并发的切换是操作系统控制的，所以有这样的编程需求的时候，务必配合join，daemon等控制程序，不然什么时候切换，这是说不准的。

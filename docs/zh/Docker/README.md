@@ -13,7 +13,7 @@ sidebarDepth: 2
 
 两个命令都是查看正在运行的容器，加 -a 参数可以查看更多的信息
 
-    docker run     docker container run   都是运行容器
+    docker run     docker container run   都是运行容器(但是本质还是不同的，可以深入研究下)
     Ctrl+P+Q  退出容器不关闭
 
     docker start goofy_almeida  启动容器在后台运行
@@ -191,6 +191,7 @@ CMD ["redis-server"]
 上述Dockerfile文件是基于基础镜像CentOS来制作Redis。
 
 ### 指令
+
 Dockerfile指令就是上述文件中开头的FROM，RUN等。Dockerfile 是一个文本文件，其内包含了一条条的指令(Instruction)，每一条指令构建一层，因此每一条指令的内容，就是描述该层应当如何构建。镜像的定制实际上就是定制每一层所添加的配置、文件。如果我们可以把每一层修改、安装、构建、操作的命令都写入一个脚本，用这个脚本来构建、定制镜像。
 
 FROM scratch 如果你以 scratch 为基础镜像的话，意味着你不以任何镜像为基础，接下来所写的指令将作为镜像第一层开始存在。

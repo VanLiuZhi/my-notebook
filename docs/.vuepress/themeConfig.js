@@ -115,7 +115,7 @@ module.exports = {
           children: [
             '/zh/HTML/css',
             '/zh/Web/http-protocol', '/zh/Web/ssl-credential', 
-            '/zh/Web/Nginx'
+            '/zh/Web/Nginx', '/zh/Web/RESTFulAPI'
           ]
         },
         {

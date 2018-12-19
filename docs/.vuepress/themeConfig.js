@@ -114,7 +114,7 @@ module.exports = {
           collapsable: true,
           children: [
             '/zh/HTML/css',
-            '/zh/Web/http-protocol', '/zh/Web/ssl-credential', 
+            '/zh/Web/http-protocol', '/zh/Web/RabbitMQ', 
             '/zh/Web/Nginx', '/zh/Web/RESTFulAPI'
           ]
         },

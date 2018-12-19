@@ -22,8 +22,21 @@ sidebarDepth: 2
     docker network create <name>
     docker network inspect <name>
 
+    docker stats 容器ID  查看容器状态
+    docker logs 把容器运行后产生的输入都打印出来，不要轻易尝试
+
+### 多个终端访问容器
+
+有时候需要开启多个终端来访问容器，通过容器ID，执行命令 `docker exec -it 40c330755e61 /bin/bash` 就可以了，这个终端的退出不会影响到已经开启的终端
+
+### 创建容器的参数
+
+- -d：后台运行容器，并返回容器ID
+- -i：以交互模式运行容器，通常与 -t 同时使用
+- -t：为容器重新分配一个伪输入终端，通常与 -i 同时使用
 
 ## 容器连接
+
 容器连接就是把容器接到一起，让它们可以相互通信，如果你使用一个容器运行一个软件的方式，容器连接就是很有必要的，比如你的服务和数据库进行通信，那么你的容器就要连接在一起。
 使用到的命令有 `--link` ，不过新的特性推荐使用 `network` ，network把容器都加到一个网络中，实现之间的互相通信。
 
@@ -143,6 +156,7 @@ goofy_almeida：要启动的container的名称
 :::
 
 ### container总结  
+
 run 命令后从镜像创建container(容器)，此时的容器是新的，如果修改了内容，用exit退出，这个容器被关闭了（进入了Exited状态），如果想留着修改，最好是Ctrl+P+Q  退出容器不关闭  这样docker ps  可以查看容器还在，这样就可以通过start 容器name再次进入容器了。（这里我感觉容器的状态是有用的，具体就要看文档了，因为run新容器后，通过exit命令退出了，再次run，此时ps命令应该是创建了一次，然后关闭，又创建了一次，出现过两个name, 但是第二次run的容器是新的，上次修改的拿不到。 但是修改后，exit退出，通过docker ps -l，可以看到容器id,  这里可以进行提交。所以像保持容器的修改，最好用上面的流程，等理清楚了生命周期，就比较清楚整个流程了）经测试，docker ps -l列不出的容器，通过docker ps -a找到，即使状态不是update也可以去commit。
 ::: tip 容器的status
 One of created, restarting, running, removing, paused, exited, or dead
@@ -167,6 +181,7 @@ save 和 export区别：
 2. export 只导出当前的信息
 
 ## Dockerfile 使用
+
 除了通过拉取官方镜像的方式外，使用Dockerfile可以定制镜像，使其更加灵活。
 整个Dockerfile文件就是执行的脚本，由特定的命令组成，一个redis镜像Dockerfile文件大概是这样的。
 
@@ -190,6 +205,8 @@ CMD ["redis-server"]
 
 上述Dockerfile文件是基于基础镜像CentOS来制作Redis。
 
+`docker build -t centos:v2 .` 在文件所在目录下执行构建命令
+
 ### 指令
 
 Dockerfile指令就是上述文件中开头的FROM，RUN等。Dockerfile 是一个文本文件，其内包含了一条条的指令(Instruction)，每一条指令构建一层，因此每一条指令的内容，就是描述该层应当如何构建。镜像的定制实际上就是定制每一层所添加的配置、文件。如果我们可以把每一层修改、安装、构建、操作的命令都写入一个脚本，用这个脚本来构建、定制镜像。
@@ -209,4 +226,49 @@ VOLUME
 WORKDIR
 ```
 
-# docker-compose
+## docker-compose
+
+这个工具是用来做容器编排的，简单来说就是可以一次启动多个容器，包括了设置端口映射，数据卷，容器连接等。在使用docker部署项目时，还是应该一个软件对应一个容器，而不是基于一个容器安装多个软件（这样就搞成一个虚拟机了），你要依次启动4，5个容器，设置端口映射，容器连接等会很麻烦，使用docker-compose只需要编写一个 `docker-compose.yaml` 文件就可以了。
+
+使用了docker-compose，最好再配合一下Dockerfile，这样很快速就可以搭建一个环境。
+
+以Python语言为例，流程应该是编写Dockerfile，在Dockerfile中基于一个基本容器（ubuntu，或者是Python3等容器），设置一些参数，然后安装依赖 `RUN pip install -r requirements.txt`，这样语言环境就有了，下面就是各个服务，比如MySQL，Redis等，这些不是太复杂的情况，直接在Dockerfile中指定image就行了。
+
+总结：
+
+1. Dockerfile 定义应用的运行环境
+2. docker-compose.yml 定义组成应用的各服务
+3. docker-compose up 启动整个应用
+
+### 编写yaml文件
+
+这个编写很简单，就是把各个容器怎么运行，参数配置组织在一起
+
+来看一个简单的官方例子：
+
+```yaml
+version: '3'
+services:
+  web:
+    build: .
+    ports:
+    - "5000:5000"
+    volumes:
+    - .:/code
+    - logvolume01:/var/log
+    links:
+    - redis
+  redis:
+    image: redis
+volumes:
+  logvolume01: {}
+```
+
+一份标准配置文件应该包含 version、services、networks 三大部分，其中最关键的就是 services 和 networks 两个部分，官方这里的例子使用links，而没有使用新的networks特性。
+
+- version：用来指定版本，依照官方的例子，现在可以使用3版本了，不同版本对一些配置的支持不同，比如配置参数从字符串到对象的变化，这里不再深入了
+
+### 命令
+
+- docker-compose version：查看版本，如果你是2版本的，就不要在yaml里面使用3版本的写法了
+

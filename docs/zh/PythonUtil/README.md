@@ -5,7 +5,7 @@
 <highlight-code lang="python">
 
     """
-    markdown 的table语法格式 自动生成代码，错误的地方需要手动处理一下
+    markdown 的table语法格式 自动生成代码，错误的地方需要手动处理一下，中文因为字符占位问题，无法做到统一格式化
     """
 
     op_str = '''

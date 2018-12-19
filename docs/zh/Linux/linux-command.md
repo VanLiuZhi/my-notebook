@@ -75,3 +75,25 @@ screen -ls
 Detached 为没有人登陆，Attached为有人，有时候没有人也会是这个状态，一般是出问题了screen -D  -r ＜session-id> 先踢掉前一用户，再登陆。
 
 screen -X -S session_id quit
+
+## 查看发行版本信息
+
+`cat /etc/issue` 或 `cat /etc/redhat-release`（Linux查看版本当前操作系统发行版信息）
+
+## 查看内核信息
+
+`uname -a`（Linux查看版本当前操作系统内核信息）
+
+## 查看操作系统版本信息
+
+`cat /proc/version`（Linux查看当前操作系统版本信息）
+
+## mkdir -p
+
+mkdir 用于创建文件夹，如果包含子目录，需要使用 -p ，这样就可以创建多层级的目录
+
+例子：mkdir -p ~/web-develop/projects/data
+
+## mv 移动、重命名
+
+mv [options] 源文件或目录 目标文件或目录

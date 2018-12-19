@@ -146,7 +146,8 @@ supervisor是用Python开发的一套通用的进程管理程序，能将一个�
 
 第三个特征，守护进程通常由启动脚本启动
 
+# apt-utils
 
-
+apt-utils是Linux系统的兼容程序，在安装系统时有提示推荐安装apt-utils，如果未安装会无法安装第三方提供的Linux软件，只能使用官方推出的软件。比如wget是第三方软件，如果没有apt-utils会导致安装不上
 
 

@@ -71,7 +71,8 @@ c3fdf8d5c56e    none    null    local
 - host：连接到主机的网络栈，主机和容器间的网络没有隔离
 
 ## 数据卷
-数据卷用来做数据持久化，如果你的数据在容器中，比如数据库文件，日志文件等，这些文件是会不断生成的，当你关闭容器，再次启动容器，数据倒是不会丢失，如果你从镜像启动新的容器，数据就没了。数据要想保持，除非你不断的提交镜像，当然这种做法是不可取的，所以要用到数据卷技术。数据可以让容器和宿主主机共享一个目录，通常把程序，数据库文件等放在宿主机上，通过创建数据卷，让容器可以操作到宿主机文件，并把新的数据写到此。
+
+数据卷用来做数据持久化，如果你的数据在容器中，比如数据库文件，日志文件等，这些文件是会不断生成的，当你关闭容器，再次启动容器，数据倒是不会丢失，如果你从镜像启动新的容器，数据就没了（出现这种情况是因为：通常使用run命令来启动容器，如果没有定义name，那么每次使用run命令都会从镜像创建新的容器，这样上次容器的操作都没了，应该养成定义容器name的习惯，创建同名的容器是不允许的）。数据要想保持，除非你不断的提交镜像，当然这种做法是不可取的，所以要用到数据卷技术。数据可以让容器和宿主主机共享一个目录，通常把程序，数据库文件等放在宿主机上，通过创建数据卷，让容器可以操作到宿主机文件，并把新的数据写到此。
 
 ```
 docker container run -v /root/data:/root/PythonProjects/GitTest -it -p 8080:8080 debian:v2 bash
@@ -80,6 +81,7 @@ docker container run -v /root/data:/root/PythonProjects/GitTest -it -p 8080:8080
 一般会把程序放在宿主机上，更新修改都在这，不过修改了代码后，记得进入容器中去重启项目。
 
 ## 文件操作
+
 ```
 从主机复制到容器 sudo docker cp host_path containerID:container_path
 从容器复制到主机 sudo docker cp containerID:container_path host_path
@@ -93,6 +95,7 @@ docker container run -v /root/data:/root/PythonProjects/GitTest -it -p 8080:8080
 - docker commit 容器ID 镜像名称:v2 保存修改为tag为v2的镜像
 
 ## 容器
+
 容器(container)是docker一个很重要的概念，通过镜像我们就可以创建容器。这里记录一些相关命令。
 
 ```vim
@@ -127,7 +130,9 @@ docker volume prune
 docker start goofy_almeida  启动容器在后台运行
 docker attach goofy_almeida 后台容器进入终端
 ```
+
 ### docker ps --选项
+
 | Name, shorthand	| Default	| Description                                             |
 | ----------------- |:---------:| :------------------------------------------------------:|
 | --all , -a		|           | Show all containers (default shows just running)        |

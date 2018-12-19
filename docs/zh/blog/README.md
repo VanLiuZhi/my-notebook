@@ -17,3 +17,7 @@ sidebar: false
 ### [ORID](ORID.html)
 
 ORID，即焦点呈现法（Focused Conversation Method），是一种通过催化师（主持人、引导讲师）引导来开展的结构化汇谈（会议、交谈）形式。该方法常被用作对事实进行分析和感觉某一工具和方法（O实践-客观事实、R感受-客观反射、I意义-事实分析，D行动-基于事实的下一步行动）。
+
+### [利用Docker快速构建开发环境(技术)](docker-dev.html)
+
+通过Dockerfile快速搭建语言环境，使用docker-compose编排开发环境所需的各种软件（MySQL，MongoDB，celery，Nginx等），以实现一个可用的开发测试环境

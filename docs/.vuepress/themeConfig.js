@@ -47,6 +47,10 @@ module.exports = {
         {
           text: '收藏',
           link: '/zh/Collect/'
+        },
+        {
+          text: '关于我',
+          link: '/zh/AboutMe/'
         }
       ],
       // sidebar: {

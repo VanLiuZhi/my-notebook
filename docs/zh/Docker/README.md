@@ -8,8 +8,8 @@ sidebarDepth: 2
 
 ## 命令
 
-    docker ps 
-    docker container ls
+    docker ps 列出容器列表
+    docker container ls 管理容器
 
 两个命令都是查看正在运行的容器，加 -a 参数可以查看更多的信息
 
@@ -269,11 +269,48 @@ volumes:
   logvolume01: {}
 ```
 
-一份标准配置文件应该包含 version、services、networks 三大部分，其中最关键的就是 services 和 networks 两个部分，官方这里的例子使用links，而没有使用新的networks特性。
+官方文档总结：
+
+一份标准配置文件应该包含 version、services、networks 三大部分，其中最关键的就是 services 和 networks 两个部分，官方这里的例子使用links，而没有使用新的networks特性。configs配置在3.3及以上版本使用，用于配置文件的访问权限。
 
 - version：用来指定版本，依照官方的例子，现在可以使用3版本了，不同版本对一些配置的支持不同，比如配置参数从字符串到对象的变化，这里不再深入了
 
+- services：就是需要运行的容器，容器通过build或image指定，build就是使用Dockerfile文件，image就是使用镜像，本地有的使用本地的，否则下载仓库的。build后面还可以加参数，例如context，args，用来设置上下文，参数等，这属于Dockerfile相关的内容，一般情况，直接在build指定当前目录就行了。ports指定端口映射，volums指定数据卷（使用数据卷，修改代码不用重启容器），在这个官方例子中，在最外层也就是顶级定义了volumes，这是为服务定义的，使用一个单机开发环境在services中定义就行了。标签有两种情况，在服务上（部署集群的时候）deploy: labels: ’标签内容‘，在容器上只需要用labels。看到deploy，它下面的配置都是和部署有关的。depends_on依赖关系，依赖的容器会先启动。command命令，类似python3 manage.py runserver 0.0.0.0:8000。pid: "host" 将PID模式设置为主机PID模式，跟主机系统共享进程命名空间。容器使用这个标签将能够访问和操纵其他容器和宿主机的名称空间。extra_hosts 添加主机名的标签，就是往/etc/hosts文件中添加一些记录，与Docker client的--add-host类似。
+
 ### 命令
 
-- docker-compose version：查看版本，如果你是2版本的，就不要在yaml里面使用3版本的写法了
+| Command | Description 
+| ------- | :-----
+| build   | 构建或重建服务，这会把Dockerfile再执行一次
+| help    | 命令帮助 
+| kill    | 杀掉容器 
+| logs    | 显示容器的输出内容 
+| port    | 打印绑定的开放端口 
+| ps      | 显示容器 
+| pull    | 拉取服务镜像 
+| restart | 重启服务 
+| rm      | 删除停止的容器 
+| run     | 运行一个一次性命令，run web bash
+| exec    | Execute a command in a running container，感觉run差不多
+| scale   | 设置服务的容器数目 
+| start   | 开启服务 
+| stop    | 停止服务 
+| up      | 创建并启动容器 
+| version | 查看版本，如果你是2版本的，就不要在yaml里面使用3版本的写法了
+
+使用总结：
+
+- 个人心得，大致浏览了一下官方文档，docker-compose最大的用处应该是集群，它提供了很多功能，不过对于单机来说仍然有它的价值，省去了很多命令，同样作为单机来用，不需要学的很深入，很多配置都是用不到的
+
+- 启动容器：使用up命令来启动容器，同时也会把build配置生成镜像，在我使用的版本中，给出了警告，对于需要使用Dockerfile构建的镜像，警告说应该先使用 `docker-compose up --build`，不过这对容器的启动到是没什么影响（不知道这里官方想表达什么）。build命令只会构建镜像，并不会去启动容器，up命令启动容器后，会把容器的输出打印到终端，要想在后台运行，应该 `up -d`
+
+- name：使用image的，镜像名称就是指定的，使用build，镜像名称为当前目录加上在services中的配置，在容器中的name也是当前目录加上在services中的配置。使用docker-compose需要在yaml文件目录执行，这样在services中的配置，比如一个叫做web的配置，第一次使用镜像（或用build构建）是Python，生成的容器也是 `当前目录_web_1`，修改了web配置，image变成Redis，那么上次创建的容器会被删除，创建新的容器，容器的名称是一样的，因为修改的是image，而不是web。使用container_name可以自定义容器name，不过通过ps命令可以看到系统的缺省名称是web_1，如果自定义了，那么在集群上因为名称相同导致错误
+
+- exited with code 0：我用自定义的dockerfile启动容器，结果返回这么一个信息容器就停止了，我分析了官方例子做了一些测试后发现，如果你的容器启动后，什么都不做，那就会退出了，一些情况也是会退出的，比如你用 `command echo $HOME` 终端会打印这个信息，然后退出容器，我写了一个Python循环，用logging打印信息，终端一直在打印信息，没有退出。也就是说启动容器不能什么也不做
+
+- 使用command，推荐绝对路径
+
+:sunny:docker-compose应该这么来理解，它把多个容器组织在一起，并默认加到一个网络中（如果你没有定义网络或把容器分到不同的网络），通过run命令可以向整个环境发送命令，同时也可以使用docker的命令。体现了一个整体的概念。
+
+
 

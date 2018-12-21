@@ -97,3 +97,10 @@ mkdir 用于创建文件夹，如果包含子目录，需要使用 -p ，这样�
 ## mv 移动、重命名
 
 mv [options] 源文件或目录 目标文件或目录
+
+## Debian 删除软件
+
+基于Debian的Linux发行版使用apt-get管理软件包
+
+- apt-get remove 会删除软件包而保留软件的配置文件
+- apt-get purge 会同时清除软件包和软件的配置文件

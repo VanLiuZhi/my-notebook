@@ -54,4 +54,26 @@ source ~/.bash_profile(激活环境变量，让workon命令可以被执行到，
 - conda env list：列出当前环境
 - mac下进入环境，前面加 source
 
-心得：Anaconda也用了一段时间，感觉并没有网上说的那么强大，对于一些科学计算，或者说是由其它语言编写，Python来调用的那种包，对，就是那种很高端的，是可以用conda安装管理的，但是像一些小包，尤其是纯Python写的，只有pip才能安装，这样你还是摆脱不了pip。
+心得：Anaconda也用了一段时间，感觉并没有网上说的那么强大，对于一些科学计算，或者说是由其它语言编写，Python来调用的那种包，对，就是那种很高端的，是可以用conda安装管理的，但是像一些小包，尤其是纯Python写的，只有pip才能安装，这样你还是摆脱不了pip，重点软件非常大，太大了，比较适合做开发用，数据分析方向用。
+
+## pipenv
+
+又是一个新的虚拟环境工具，相比virtualenv功能上更加强大，由于是较新的工具，设计上考虑就比较全面。通过pip install来安装，在项目对应目录执行 `pipenv install --dev` 使用系统Python版本来为此项目创建虚拟环境，生成Pipfile，Pipfile.lock文件。使用 `pipenv python 3.6` 的形式指定版本。通过帮助可以查看更多命令。
+
+Pipfile & Pipfile.lock：
+
+Pipfile是用来代替原来的requirements.txt的，source部分用来设置仓库地址，packages部分用来指定项目依赖的包，dev-packages部分用来指定开发环境需要的包，这样分开便于管理。而Pipfile.lock中记录了当前环境中安装的依赖的版本号以及哈希，以保证每次装出来的依赖都是一致的。
+
+`pipenv install --dev` 用来安装当前项目中dev-packages中的包，没有环境的会创建虚拟环境。
+
+在 Dockerfile 中安装依赖，加--system参数表示使用 pip 直接安装相应依赖，不创建虚拟环境。
+
+`RUN pipenv install --deploy --system`
+
+`pipenv install --dev django`，`pipenv install django` 安装django包，第一种安装在dev-packages里面，这样在部署的时候通过 `pipenv install` 安装，只会安装packages里面的，把开发环境的包过滤了，这很有用，要全部安装，应该 `pipenv insyall --dev`
+
+在项目目录中编写 `.env`，可以在进入虚拟环境后，把env文件中的环境变量加载，这个就很有用了
+
+关于IDE支持：pycharm中，最新版本已经支持了，然而我用的mac版试了还是不行，而且我看源码的执行文件，明确说明不能直接执行此文件，这就很尴尬了，从使用virtualenv的经验来看，配置操作是没问题的，而且我查了官方文档，发现官方的情况和我的不符合。我推测是Windows环境的版本才支持，可能mac版还不行（但是软件中是有配置项，这就很尴尬了，暂时使用常规虚拟环境配置吧）。
+
+

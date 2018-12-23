@@ -3,11 +3,14 @@ sidebarDepth: 2
 ---
 
 # Flask
+
 ![image](/my-notebook/images/Python/Flask.png)
 
 ## 关于扩展
 
 通过安装对应的扩展包，可以扩展框架的很多功能（这些扩展和框架会有结合，有点想开启框架的功能一样），Flask的扩展都暴露在flask.ext命名空间下，你可以在环境中通过pip安装好相应扩展，然后再在程序中导入相应的包即可使用扩展。
+
+在新的版本中，引入flask扩展不能再从flask.ext导入了，直接从安装模块导入，比如 `from flask_sqlalchemy import SQLAlchemy`
 
 ## 自定义url转换器
 
@@ -88,7 +91,6 @@ sidebarDepth: 2
 </highlight-code>
 
 
-
 ### 基于调度方法的视图
 
 继承自 `flask.views.MethodView`，可以对不同的HTTP方法执行对应的函数，使用方法的小写名。在类视图中定义一个属性叫做decorators，然后存储装饰器。以后每次调用这个类视图的时候，就会执行这个装饰器
@@ -153,11 +155,77 @@ sidebarDepth: 2
 
 WSGI 协议工具集
 
-## 其它
+## 配置参数讲解
 
-Flask-Assets  用于静态资源管理
-压缩静态文件，在需要的时候通过标签就能找到路径引用它
+创建app需要传递配置参数，以供各个模块使用
 
-Flask-Script  manager  启动命令相关
+SECRET_KEY：密码加盐的参数，推荐设置成系统变量
 
-表单
+## 扩展模块
+
+扩展模块很多是基于现有的模块做扩展，封装成flask的扩展，比如把实例加入请求上下文中；模块的更多用法可以参考原模块。
+
+需要分析用法的模块，列出项目地址。
+
+### flask_script
+
+用来自定义命令的，不过模块没有维护了，官方也推荐不要再使用它了，推荐使用 `@app.cli.command` 的形式来添加命令。然后配置环境变量，通过flask command的形式来执行命令。
+
+可以使用装饰器，和类来添加命令。装饰器：`@manager.command`；类：继承Command类，实现run方法。
+
+由于是弃用的模块，不再赘述。
+
+### flask_migrate
+
+Flask-Migrate是用于处理SQLAlchemy 数据库迁移的扩展工具。当Model出现变更的时候，通过migrate去管理数据库变更。依赖alembic模块。
+
+用法：
+
+<highlight-code lang='python'>
+
+    from flask import Flask
+    from flask_sqlalchemy import SQLAlchemy
+    from flask_migrate import Migrate
+
+    app = Flask(__name__)
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
+
+    db = SQLAlchemy(app)
+    migrate = Migrate(app, db)
+
+</highlight-code>
+
+命令：
+
+1. 初始化
+flask db init
+这个命令会在当前目录下生成一个migrations文件夹。这个文件夹也需要和其他源文件一起，添加到版本控制。
+
+2. 生成最初的迁移
+flask db migrate
+此命令会在migrations下生成一个version文件夹，下面包含了对应版本的数据库操作py脚本。
+
+3. 数据库升级
+flask db upgrade
+最后一步。此命令相当于执行了version文件夹下的相应py版本，对数据库进行变更操作。此后，对model有变更，只要重复migrate和upgrade操作即可。
+
+由于migrate并不一定全部发现你对model的所有改动，因此生成的py脚本需要review, 有错的话则需要edit。
+
+例如目前知道的，表名称表更，列名称变更，或给constraints命名等，migreate都不能发现的。更多限制细节见此：Alembic autogenerate documentation。
+
+在Alembic 中，数据库迁移用迁移脚本表示。脚本中有两个函数，分别是upgrade() 和downgrade()。upgrade() 函数把迁移中的改动应用到数据库中，downgrade() 函数则将改动删除。Alembic 具有添加和删除改动的能力，因此数据库可重设到修改历史的任意一点。
+
+我们可以使用revision 命令手动创建Alembic 迁移，也可使用migrate 命令自动创建。手动创建的迁移只是一个骨架，upgrade() 和downgrade() 函数都是空的，开发者要使用Alembic 提供的Operations 对象指令实现具体操作。自动创建的迁移会根据模型定义和数据库当前状态之间的差异生成upgrade() 和downgrade() 函数的内容。自动创建的迁移不一定总是正确的，有可能会漏掉一些细节。自动生成迁移脚本后一定要进行检查。
+
+查看帮助文档：flask db --help
+
+运行flask db init后，提示配置日志输出，默认输出到终端，应该配置日志到文件，方便以后排查问题（看看是谁动了数据库）
+
+## flask_logging
+
+[GitHub](https://github.com/dgilland/flask-logconfig)
+
+
+
+
+

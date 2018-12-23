@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>MongoDB | 个人网站</title>
+    <meta name="description" content="liuzhi notebook">
+    <link rel="icon" href="/my-notebook/logo.png">
+  <link rel="manifest" href="/my-notebook/manifest.json">
+  <meta name="theme-color" content="#3eaf7c">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <link rel="apple-touch-icon" href="/my-notebook/icons/apple-touch-icon-152x152.png">
+  <link rel="mask-icon" href="/my-notebook/icons/safari-pinned-tab.svg" color="#3eaf7c">
+  <meta name="msapplication-TileImage" content="/icons/msapplication-icon-144x144.png">
+  <meta name="msapplication-TileColor" content="#000000">
+    
+    <link rel="preload" href="/my-notebook/assets/css/styles.123d9d81.css" as="style"><link rel="preload" href="/my-notebook/assets/js/app.123d9d81.js" as="script"><link rel="preload" href="/my-notebook/assets/js/46.254fa012.js" as="script"><link rel="preload" href="/my-notebook/assets/css/12.styles.27baecdd.css" as="style"><link rel="preload" href="/my-notebook/assets/js/12.27baecdd.js" as="script"><link rel="prefetch" href="/my-notebook/assets/css/0.styles.4566aca4.css"><link rel="prefetch" href="/my-notebook/assets/css/10.styles.a96f1b40.css"><link rel="prefetch" href="/my-notebook/assets/css/11.styles.db820060.css"><link rel="prefetch" href="/my-notebook/assets/css/14.styles.d9b80c01.css"><link rel="prefetch" href="/my-notebook/assets/css/2.styles.8096e6ae.css"><link rel="prefetch" href="/my-notebook/assets/css/6.styles.bb56f95a.css"><link rel="prefetch" href="/my-notebook/assets/css/7.styles.bca84adf.css"><link rel="prefetch" href="/my-notebook/assets/css/8.styles.458330a9.css"><link rel="prefetch" href="/my-notebook/assets/css/9.styles.704fd71b.css"><link rel="prefetch" href="/my-notebook/assets/js/0.4566aca4.js"><link rel="prefetch" href="/my-notebook/assets/js/1.cfe9c73c.js"><link rel="prefetch" href="/my-notebook/assets/js/10.a96f1b40.js"><link rel="prefetch" href="/my-notebook/assets/js/11.db820060.js"><link rel="prefetch" href="/my-notebook/assets/js/13.80efd87b.js"><link rel="prefetch" href="/my-notebook/assets/js/14.d9b80c01.js"><link rel="prefetch" href="/my-notebook/assets/js/15.17435bac.js"><link rel="prefetch" href="/my-notebook/assets/js/16.d50c8117.js"><link rel="prefetch" href="/my-notebook/assets/js/17.88fa7e8f.js"><link rel="prefetch" href="/my-notebook/assets/js/18.14226db2.js"><link rel="prefetch" href="/my-notebook/assets/js/19.13bb0bf3.js"><link rel="prefetch" href="/my-notebook/assets/js/2.8096e6ae.js"><link rel="prefetch" href="/my-notebook/assets/js/20.307ce541.js"><link rel="prefetch" href="/my-notebook/assets/js/21.152b1a36.js"><link rel="prefetch" href="/my-notebook/assets/js/22.68279112.js"><link rel="prefetch" href="/my-notebook/assets/js/23.ff01dfb3.js"><link rel="prefetch" href="/my-notebook/assets/js/24.fa0648e2.js"><link rel="prefetch" href="/my-notebook/assets/js/25.dc87333b.js"><link rel="prefetch" href="/my-notebook/assets/js/26.2d0b611f.js"><link rel="prefetch" href="/my-notebook/assets/js/27.29f741e0.js"><link rel="prefetch" href="/my-notebook/assets/js/28.7bf8a72f.js"><link rel="prefetch" href="/my-notebook/assets/js/29.c751338c.js"><link rel="prefetch" href="/my-notebook/assets/js/30.2da41fb1.js"><link rel="prefetch" href="/my-notebook/assets/js/31.5ea8c33f.js"><link rel="prefetch" href="/my-notebook/assets/js/32.81e78055.js"><link rel="prefetch" href="/my-notebook/assets/js/33.c5400772.js"><link rel="prefetch" href="/my-notebook/assets/js/34.a7a370ea.js"><link rel="prefetch" href="/my-notebook/assets/js/35.a10cddd6.js"><link rel="prefetch" href="/my-notebook/assets/js/36.721b6807.js"><link rel="prefetch" href="/my-notebook/assets/js/37.3dbaacb9.js"><link rel="prefetch" href="/my-notebook/assets/js/38.c9df08b0.js"><link rel="prefetch" href="/my-notebook/assets/js/39.52a7d225.js"><link rel="prefetch" href="/my-notebook/assets/js/4.3fbd59c2.js"><link rel="prefetch" href="/my-notebook/assets/js/40.eb08522d.js"><link rel="prefetch" href="/my-notebook/assets/js/41.db2e632e.js"><link rel="prefetch" href="/my-notebook/assets/js/42.809cddd0.js"><link rel="prefetch" href="/my-notebook/assets/js/43.e2b5b7f6.js"><link rel="prefetch" href="/my-notebook/assets/js/44.083ad19d.js"><link rel="prefetch" href="/my-notebook/assets/js/45.dc032072.js"><link rel="prefetch" href="/my-notebook/assets/js/47.da9f7663.js"><link rel="prefetch" href="/my-notebook/assets/js/48.f3af0a19.js"><link rel="prefetch" href="/my-notebook/assets/js/49.233bc59c.js"><link rel="prefetch" href="/my-notebook/assets/js/5.595392a5.js"><link rel="prefetch" href="/my-notebook/assets/js/50.43a99bc4.js"><link rel="prefetch" href="/my-notebook/assets/js/51.3ec58d29.js"><link rel="prefetch" href="/my-notebook/assets/js/52.63e821b8.js"><link rel="prefetch" href="/my-notebook/assets/js/53.54a47588.js"><link rel="prefetch" href="/my-notebook/assets/js/54.4762aaf9.js"><link rel="prefetch" href="/my-notebook/assets/js/55.c4a44499.js"><link rel="prefetch" href="/my-notebook/assets/js/56.54ce4d8d.js"><link rel="prefetch" href="/my-notebook/assets/js/57.011272a7.js"><link rel="prefetch" href="/my-notebook/assets/js/58.499a8a63.js"><link rel="prefetch" href="/my-notebook/assets/js/59.081a8d2b.js"><link rel="prefetch" href="/my-notebook/assets/js/6.bb56f95a.js"><link rel="prefetch" href="/my-notebook/assets/js/60.70753c61.js"><link rel="prefetch" href="/my-notebook/assets/js/61.9925d9d2.js"><link rel="prefetch" href="/my-notebook/assets/js/62.10bb8a80.js"><link rel="prefetch" href="/my-notebook/assets/js/63.b4b0dc1d.js"><link rel="prefetch" href="/my-notebook/assets/js/64.dc2ae2d2.js"><link rel="prefetch" href="/my-notebook/assets/js/65.280ffa35.js"><link rel="prefetch" href="/my-notebook/assets/js/66.45bab64f.js"><link rel="prefetch" href="/my-notebook/assets/js/67.9c31ffc5.js"><link rel="prefetch" href="/my-notebook/assets/js/68.598b868f.js"><link rel="prefetch" href="/my-notebook/assets/js/69.463adee0.js"><link rel="prefetch" href="/my-notebook/assets/js/7.bca84adf.js"><link rel="prefetch" href="/my-notebook/assets/js/70.5f5d906d.js"><link rel="prefetch" href="/my-notebook/assets/js/71.3cffd9f7.js"><link rel="prefetch" href="/my-notebook/assets/js/72.dbe0f57d.js"><link rel="prefetch" href="/my-notebook/assets/js/73.865e2b8c.js"><link rel="prefetch" href="/my-notebook/assets/js/74.68ee42eb.js"><link rel="prefetch" href="/my-notebook/assets/js/75.26752d45.js"><link rel="prefetch" href="/my-notebook/assets/js/76.92bc5b01.js"><link rel="prefetch" href="/my-notebook/assets/js/77.3b3317b4.js"><link rel="prefetch" href="/my-notebook/assets/js/78.a8c522f1.js"><link rel="prefetch" href="/my-notebook/assets/js/8.458330a9.js"><link rel="prefetch" href="/my-notebook/assets/js/9.704fd71b.js">
+    <link rel="stylesheet" href="/my-notebook/assets/css/0.styles.4566aca4.css"><link rel="stylesheet" href="/my-notebook/assets/css/10.styles.a96f1b40.css"><link rel="stylesheet" href="/my-notebook/assets/css/11.styles.db820060.css"><link rel="stylesheet" href="/my-notebook/assets/css/12.styles.27baecdd.css"><link rel="stylesheet" href="/my-notebook/assets/css/14.styles.d9b80c01.css"><link rel="stylesheet" href="/my-notebook/assets/css/2.styles.8096e6ae.css"><link rel="stylesheet" href="/my-notebook/assets/css/6.styles.bb56f95a.css"><link rel="stylesheet" href="/my-notebook/assets/css/7.styles.bca84adf.css"><link rel="stylesheet" href="/my-notebook/assets/css/8.styles.458330a9.css"><link rel="stylesheet" href="/my-notebook/assets/css/9.styles.704fd71b.css"><link rel="stylesheet" href="/my-notebook/assets/css/styles.123d9d81.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/my-notebook/" class="home-link router-link-active"><!----> <span class="site-name">个人网站</span></a> <div class="links" style="max-width:nullpx;"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/my-notebook/zh/blog/" class="nav-link">文章</a></div><div class="nav-item"><a href="/my-notebook/zh/Python/" class="nav-link">笔记</a></div><div class="nav-item"><a href="/my-notebook/zh/Collect/" class="nav-link">收藏</a></div><div class="nav-item"><a href="/my-notebook/zh/AboutMe/" class="nav-link">关于我</a></div> <a href="https://github.com/VanLiuZhi/my-notebook" target="_blank" rel="noopener noreferrer" class="repo-link">
+    GitHub
+    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></nav></div></header> <div class="sidebar-mask"></div> <div class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/my-notebook/zh/blog/" class="nav-link">文章</a></div><div class="nav-item"><a href="/my-notebook/zh/Python/" class="nav-link">笔记</a></div><div class="nav-item"><a href="/my-notebook/zh/Collect/" class="nav-link">收藏</a></div><div class="nav-item"><a href="/my-notebook/zh/AboutMe/" class="nav-link">关于我</a></div> <a href="https://github.com/VanLiuZhi/my-notebook" target="_blank" rel="noopener noreferrer" class="repo-link">
+    GitHub
+    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></nav>  <ul class="sidebar-links"><li><div class="sidebar-group first"><p class="sidebar-heading open"><span>MongoDB</span> <!----></p> <ul class="sidebar-group-items"><li><a href="/my-notebook/zh/MongoDB/#objectid字段" class="sidebar-link">ObjectID字段</a><ul class="sidebar-sub-headers"></ul></li><li><a href="/my-notebook/zh/MongoDB/#查询" class="sidebar-link">查询</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/my-notebook/zh/MongoDB/#projection" class="sidebar-link">projection</a></li></ul></li><li><a href="/my-notebook/zh/MongoDB/#内嵌文档" class="sidebar-link">内嵌文档</a><ul class="sidebar-sub-headers"></ul></li><li><a href="/my-notebook/zh/MongoDB/#数据库引用" class="sidebar-link">数据库引用</a><ul class="sidebar-sub-headers"></ul></li><li><a href="/my-notebook/zh/MongoDB/#原子操作" class="sidebar-link">原子操作</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/my-notebook/zh/MongoDB/#findandmodify方法" class="sidebar-link">findAndModify方法</a></li></ul></li><li><a href="/my-notebook/zh/MongoDB/#索引" class="sidebar-link">索引</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/my-notebook/zh/MongoDB/#最大范围" class="sidebar-link">最大范围</a></li></ul></li></ul></div></li></ul> </div> <div class="page"> <div class="content"><h1 id="mongodb">MongoDB</h1> <p><img src="/my-notebook/images/mongodb/MongoDB.png" alt="image"></p> <h2 id="objectid字段">ObjectID字段</h2> <p><code>ObjectId</code>构成我们使用<code>MySQL</code>等关系型数据库时，主键都是设置成自增的。但在分布式环境下，这种方法就不可行了，会产生冲突。为此，<code>MongoDB</code>采用了一个称之为<code>ObjectId</code>的类型来做主键。<code>ObjectId</code>是一个12字节的<code>BSON</code>类型字符串。按照字节顺序，依次代表：</p> <ul><li>4字节：UNIX时间戳</li> <li>3字节：表示运行MongoDB的机器</li> <li>2字节：表示生成此_id的进程</li> <li>3字节：由一个随机数开始的计数器生成的值</li></ul> <p><code>MongoDB</code>对<code>ObjectId</code>对象提供了<code>getTimestamp()</code>方法来获取<code>ObjectId</code>的时间。</p> <p>这里不使用自增长<code>id</code>主要是因为<code>MongoDB</code>是分布式数据库，在并发插入的时候需要维护全局的唯一ID，传统的像MySQL是单机版的，使用自增长ID可以了，处理多条数据插入加锁就行了，虽然MySQL也可以部署集群，但是这种情况ID就没用了，需要自定义全局唯一字段。</p> <p><code>ObjectID</code>是字段类型，通常来说它是按照默认规则来生产的，文档中的其它字段也可以使用这种字段类型。</p> <h2 id="查询">查询</h2> <ul><li>查询全部：<code>db.document.find({})</code></li> <li>查询字段是对象的：<code>db.document.find({'id_card.idcard_type': '身份证'})</code></li></ul> <h3 id="projection">projection</h3> <p>该参数指明要显示的字段或者要隐藏的字段</p> <ul><li><code>db.document.find({}, {'name':1})</code>  返回结果只显示name字段</li> <li><code>db.document.find({}, {'name':0})</code>  返回结果把name字段隐藏了，其它展示出来</li></ul> <h2 id="内嵌文档">内嵌文档</h2> <p>见文档</p> <h2 id="数据库引用">数据库引用</h2> <p>分为手动引用和DBRefs，手动引用就是自己建立关系，然后查多次或关联查询。</p> <p>使用方法：</p> <ul><li>$ref：集合名称</li> <li>$id：引用的id</li> <li>$db:数据库名称，可选参数</li></ul> <p>产品document中引用attr_data，attr_data是产品属性document</p> <p>products document</p> <div><pre><code class="hljs python"><span class="hljs-meta">@blueprint.route('/get/classify/list', methods=['POST'])</span>
+<span class="hljs-meta">@auth_token_required</span>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get_classify_list</span><span class="hljs-params">()</span>:</span>
+    <span class="hljs-string">"""
+    根据页码、搜索条件查询指定数目记录
+    :return:
+    """</span>
+    logging.info(<span class="hljs-string">"get_classify_list"</span>)
+    response_dict = {}
+    <span class="hljs-keyword">try</span>:
+        params = request.get_json()
+        page = params.get(<span class="hljs-string">"page"</span>)
+        per_page = params.get(<span class="hljs-string">"per_page"</span>)
+        <span class="hljs-comment"># 获取查询条件</span>
+        search_data = params.get(<span class="hljs-string">"search_data"</span>)
+        classify_list = ProductClassify.get_classify_list_by_data(page, per_page, search_data)
+        response_data_list = format_classify_info(classify_list)
+        response_dict[<span class="hljs-string">"code"</span>] = response.SUCCESS
+        response_dict[<span class="hljs-string">"msg"</span>] = response.RESULT_SUCCESS
+        response_dict[<span class="hljs-string">"data"</span>] = response_data_list
+    <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> e:
+        logging.debug(e)
+        response_dict[<span class="hljs-string">"code"</span>] = response.ERROR
+        response_dict[<span class="hljs-string">"msg"</span>] = response.RESULT_ERROR
+        response_dict[<span class="hljs-string">"data"</span>] = []
+    <span class="hljs-keyword">finally</span>:
+        <span class="hljs-keyword">return</span> jsonify(response_dict)</code></pre></div> <div class="language-py extra-class"><pre class="language-py"><code><span class="token keyword">from</span> collections <span class="token keyword">import</span> namedtuple
+Point <span class="token operator">=</span> namedtuple<span class="token punctuation">(</span><span class="token string">'Point'</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token string">'x'</span><span class="token punctuation">,</span> <span class="token string">'y'</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+p <span class="token operator">=</span> Point<span class="token punctuation">(</span><span class="token number">11</span><span class="token punctuation">,</span> <span class="token number">22</span><span class="token punctuation">)</span>
+x<span class="token punctuation">,</span> y <span class="token operator">=</span> p
+<span class="token keyword">print</span><span class="token punctuation">(</span>x<span class="token punctuation">,</span> y<span class="token punctuation">)</span>
+</code></pre></div><div class="language-js extra-class"><pre class="language-js"><code><span class="token punctuation">{</span>   
+    <span class="token string">&quot;_id&quot;</span><span class="token punctuation">:</span><span class="token function">ObjectId</span><span class="token punctuation">(</span><span class="token string">&quot;53402597d852426020000002&quot;</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token string">&quot;product_name&quot;</span><span class="token punctuation">:</span> <span class="token string">&quot;卫龙辣条&quot;</span><span class="token punctuation">,</span>
+    <span class="token string">&quot;attr_data&quot;</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        <span class="token string">&quot;$ref&quot;</span><span class="token punctuation">:</span> <span class="token string">&quot;product_attr&quot;</span><span class="token punctuation">,</span>
+        <span class="token string">&quot;$id&quot;</span><span class="token punctuation">:</span> <span class="token function">ObjectId</span><span class="token punctuation">(</span><span class="token string">&quot;534009e4d852427820000002&quot;</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+        <span class="token string">&quot;$db&quot;</span><span class="token punctuation">:</span> <span class="token string">&quot;testdata&quot;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>product_attr document</p> <div class="language-json extra-class"><pre class="language-json"><code><span class="token punctuation">{</span>
+   <span class="token property">&quot;_id&quot;</span> <span class="token operator">:</span> ObjectId(<span class="token string">&quot;534009e4d852427820000002&quot;</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+   <span class="token property">&quot;size&quot;</span><span class="token operator">:</span> <span class="token string">&quot;大&quot;</span><span class="token punctuation">,</span>
+   <span class="token property">&quot;weight&quot;</span><span class="token operator">:</span> <span class="token string">&quot;100g&quot;</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>查询</p> <div class="language-sh extra-class"><pre class="language-text"><code>var product = db.products.findOne({&quot;product_name&quot;:&quot;卫龙辣条&quot;})
+var dbRef = product.attr_data
+db[dbRef.$ref].findOne({&quot;_id&quot;:(dbRef.$id)})
+结果：
+{
+   &quot;_id&quot; : ObjectId(&quot;534009e4d852427820000002&quot;),
+   &quot;size&quot;: &quot;大&quot;,
+   &quot;weight&quot;: &quot;100g&quot;
+}
+</code></pre></div><h2 id="原子操作">原子操作</h2> <p>mongodb不支持事务，所以，在你的项目中应用时，要注意这点。无论什么设计，都不要要求mongodb保证数据的完整性。</p> <p>但是mongodb提供了许多原子操作，比如文档的保存，修改，删除等，都是原子操作。</p> <p>所谓原子操作就是要么这个文档保存到Mongodb，要么没有保存到Mongodb，不会出现查询到的文档没有保存完整的情况。</p> <h3 id="findandmodify方法">findAndModify方法</h3> <p>该方法将查询一些结果，如果查询到，执行更新。这些语句都是写在一个查询中的，并且使用对应的原子操作方法，让整个findAndModify实现原子性操作。
+如果分开操作，就是先查询，再修改，在这两个操作之间，如果有人购买了产品，导致库存不足，那么修改操作就会导致数据库数据一致性问题。</p> <div class="language- extra-class"><pre class="language-text"><code>book = {
+          _id: 123456789,
+          title: &quot;MongoDB: The Definitive Guide&quot;,
+          author: [ &quot;Kristina Chodorow&quot;, &quot;Mike Dirolf&quot; ],
+          published_date: ISODate(&quot;2010-09-24&quot;),
+          pages: 216,
+          language: &quot;English&quot;,
+          publisher_id: &quot;oreilly&quot;,
+          available: 3,
+          checkout: [ { by: &quot;joe&quot;, date: ISODate(&quot;2012-10-15&quot;) } ]
+        }
+</code></pre></div><p>对于上述的book模型，available是我们的判别标志，当它大于0的时候，说明是可以操作的(比如借书)，这部分就是查询，查询成功了，就可以去执行要更新的操作。
+db.document.findAndModify({
+query: {},
+update: {}
+})
+更新操作应该使用原子操作命令</p> <p>$set:用来指定一个键并更新键值，若键不存在并创建。</p> <p>{ $set : { field : value } }
+  $unset:用来删除一个键</p> <p>{ $unset : { field : 1} }
+  $inc:可以对文档的某个值为数字型的键进行增减操作</p> <p>{ $inc : { field : value } }
+  $push：把value追加到field里面去，field一定要是数组类型才行，如果field不存在，会新增一个数据类型加进去。</p> <p>{ $push : { field : value } }
+  $pushAll:同$push,只是一次可以追加到多个值到一个数组字段内。</p> <p>{ $pushAll : { field : value_array } }
+  $pull:从数组field内删除一个等于value值</p> <p>{ $pull : { field : _value } }
+  $addToSet：增加一个值到数组内，而且只有当这个值不在数组内才增加。
+  $pop：删除数组的第一个或最后一个元素
+{ $pop : { field : 1 } }
+  $rename：修改字段名称
+{ $rename : { old_field_name : new_field_name } }
+  $bit：位操作，integer类型
+{$bit : { field : {and : 5}}}
+  偏移操作符</p> <blockquote><p>t.find() { &quot;_id&quot; : ObjectId(&quot;4b97e62bf1d8c7152c9ccb74&quot;), &quot;title&quot; : &quot;ABC&quot;, &quot;comments&quot; : [ { &quot;by&quot; : &quot;joe&quot;, &quot;votes&quot; : 3 }, { &quot;by&quot; : &quot;jane&quot;, &quot;votes&quot; : 7 } ] }</p></blockquote> <blockquote><p>t.update( {'comments.by':'joe'}, {$inc:{'comments.$.votes':1}}, false, true )</p></blockquote> <blockquote><p>t.find() { &quot;_id&quot; : ObjectId(&quot;4b97e62bf1d8c7152c9ccb74&quot;), &quot;title&quot; : &quot;ABC&quot;, &quot;comments&quot; : [ { &quot;by&quot; : &quot;joe&quot;, &quot;votes&quot; : 4 }, { &quot;by&quot; : &quot;jane&quot;, &quot;votes&quot; : 7 } ] }</p></blockquote> <h2 id="索引">索引</h2> <p>MongoDB通过索引加快查询速度，索引运行在内存中，数据库的操作也需要对索引进行操作，索引超过内存的情况，将会删除一些索引。最好只对大数据文档创建索引。</p> <p>索引不能被以下的查询使用：</p> <ul><li>正则表达式及非操作符，如 $nin, $not, 等</li> <li>算术运算符，如 $mod, 等</li> <li>$where 子句</li></ul> <p>所以，检测你的语句是否使用索引是一个好的习惯，可以用explain来查看。</p> <h3 id="最大范围">最大范围</h3> <ul><li>集合中索引不能超过64个</li> <li>索引名的长度不能超过128个字符</li> <li>一个复合索引最多可以有31个字段</li></ul></div> <div class="page-edit"><!----> <div class="last-updated"><span class="prefix">上次更新: </span> <span class="time">2018-11-13 11:01:25</span></div></div> <!----> </div> <!----></div></div>
+    <script src="/my-notebook/assets/js/46.254fa012.js" defer></script><script src="/my-notebook/assets/js/12.27baecdd.js" defer></script><script src="/my-notebook/assets/js/app.123d9d81.js" defer></script>
+  </body>
+</html>

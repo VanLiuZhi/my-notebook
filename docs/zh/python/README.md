@@ -16,6 +16,8 @@ sidebarDepth: 2
 
 dir() 函数不带参数时，返回当前范围内的变量、方法和定义的类型列表；带参数时，返回参数的属性、方法列表。如果参数包含方法 `__dir__()`，该方法将被调用。如果参数不包含 `__dir__()`，该方法将最大限度地收集参数信息。
 
+与之对应的属性有 `__dict__`，也可以查看对象的属性，实例的 `__dict__` 仅存储与该实例相关的实例属性，正是因为实例的 `__dict__` 属性，每个实例的实例属性才会互不影响。类的__dict__存储所有实例共享的变量和函数(类属性，方法等)，类的`__dict__` 并不包含其父类的属性。所以不能通过 `__dict__` 在一个继承关系中，尤其是还动态修改属性后，判断属性是否存在，要获取完整的属性列表，使用dir()。
+
 ## 标准库 inspect
 
 inspect 作为Python的标准库，主要有以下作用：
@@ -478,6 +480,14 @@ python dict函数：一般用法传入关键字，其它方法：
     # [9, 7, 5, 3]，负步进是反向切片，所以用正步进实现不了
 
 </highlight-code>
+
+## any
+
+内置函数，any(iterable)，可迭代序列每个元素都是False，返回False，如果其中一个是True，返回True。这可以用在对多个对象判断逻辑，把它们写在元组里面，使用any函数。
+
+## all
+
+内置函数，all(iterable)，可迭代的每个元素都是True，返回True，否则返回False
 
 ## 浮点数精度
 
@@ -1731,4 +1741,26 @@ logging模块很灵活，是项目必备的模块，日志级别 `CRITICAL > ERR
 
 在导入模块后，通过logging.basicConfig(level=logging.NOTSET)来配置日志级别，这里设置为NOTSET，所有级别都会被输出（貌似和设置DEBUG级别是一样的效果，感觉作用在于重写类对象，新增加级别的时候设置NOTSET可以不受控制）
 
+## mappingproxy（不可变映射类型）
 
+python3.3开始,types模块中引入了一个封装类名叫MappingProxyType，如果给这个类一个映射,它会返回一个只对映射视图。虽然是个只读的视图,但是它是动态的,这意味着如果对原映射做出了改动，我们可以通过这个视图观察到,但是无法通过这个视图对原映射做出修改。
+
+<highlight-code lang='python'>
+
+    #示例
+    from types import MappingProxyType
+    #创建一个集合
+    index_a = {'a' : 'b'}
+    #创建index_a的映射视图
+    a_proxy = MappingProxyType(index_a)
+    print(a_proxy)
+    a_proxy['a']
+    # #不能对a_proxy视图进行修改
+    # a_proxy['b'] = 'bb'
+    #但是可以对原映射进行修改
+    index_a['b'] = 'bb'
+    print(a_proxy)
+
+</highlight-code>
+
+另外值得注意的是，类的 `__dict__` 属性也是mappingproxy的，之所以这么做是为了保证类级别的属性和方法只能是字符串，也帮助解释器更快的查找类级别的属性（因为它是字符串的）。类的属性是实例共享的，这也保证了类的统一性。所以你不应该设计这样的程序：通过`class.__dict__.update(dict()STATUS=0)`去修改类的属性，可以做的是修改实例的属性，记住创建实例会把类的属性复制一份给实例。

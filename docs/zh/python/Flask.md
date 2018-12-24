@@ -221,11 +221,106 @@ flask db upgrade
 
 运行flask db init后，提示配置日志输出，默认输出到终端，应该配置日志到文件，方便以后排查问题（看看是谁动了数据库）
 
-## flask_logging
+### flask_logging
 
-[GitHub](https://github.com/dgilland/flask-logconfig)
+[GitHub地址](https://github.com/dgilland/flask-logconfig)
 
+用来快速实现登录验证。在User模型中，通过继承UserMixin实现以下属性：
 
+1. is_authenticated 属性，用来判断是否是已经授权了，如果通过授权就会返回true
 
+2. is_active 属性，判断是否已经激活
 
+3. is_anonymous 属性，判断是否是匿名用户
 
+4. get_id() 方法，返回用户的唯一标识
+
+模块提供了login_required, login_user, logout_user等方法，验证成功后，通过login_user设置session。
+
+### flask_sqlalchemy
+
+配置参数：
+
+- `SQLALCHEMY_DATABASE_URI`：配置数据库连接
+
+`sqlite:////tmp/test.db 或 mysql://username:password@server/db`
+- SQLALCHEMY_BINDS：用来绑定多个数据库，例如：
+```
+SQLALCHEMY_DATABASE_URI = 'postgres://localhost/main'
+SQLALCHEMY_BINDS = {
+    'users':        'mysqldb://localhost/users',
+    'appmeta':      'sqlite:////path/to/appmeta.db'
+}
+```
+多个数据库在创建数据库或在模型中声名使用哪个，比如在模型中 `__bind_key__ = 'users'`
+
+- `SQLALCHEMY_ECHO`：值为Boolean（默认为False），设置为True，会把查询语句输出到stderr
+
+- `SQLALCHEMY_RECORD_QUERIES`：可以用于显式地禁用或者启用查询记录。查询记录 在调试或者测试模式下自动启用。
+一般我们不设置。
+
+- `QLALCHEMY_NATIVE_UNICODE`：可以用于显式地禁用支持原生的unicode。
+
+- `SQLALCHEMY_POOL_SIZE`：数据库连接池的大小。默认是数据库引擎的默认值（通常是 5）。当用户需要访问数据库时，并非建立一个新的连接，而是从连接池中取出一个已建立的空闲连接对象。使用完毕后，用户也并非将连接关闭，而是将连接放回连接池中，以供下一个请求访问使用。而连接的建立、断开都由连接池自身来管理。
+
+- `SQLALCHEMY_POOL_TIMEOUT`：指定数据库连接池的超时时间。默认是10。
+
+- `SQLALCHEMY_POOL_RECYCLE`：自动回收连接的秒数（1200即为2小时）。这对MySQL是必须的，默认情况下MySQL会自动移除闲置8小时或者以上的连接，Flask-SQLAlchemy会自动地设置这个值为2小时。也就是说如果连接池中有连接2个小时被闲置，那么其会被断开和抛弃。
+
+- `SQLALCHEMY_MAX_OVERFLOW`：控制在连接池达到最大值后可以创建的连接数。当这些额外的连接使用后回收到连接池后将会被断开和抛弃。保证连接池只有设置的大小。
+
+- `SQLALCHEMY_TRACK_MODIFICATIONS`：如果设置成 True (默认情况)，Flask-SQLAlchemy 将会追踪对象的修改并且发送信号。这需要额外的内存，如果不必要的可以禁用它。
+
+常用字段
+
+| Command      | Description 
+| ------------ | :----------
+| Integer      | int普通整数，一般是32位 
+| SmallInteger | int取值范围小的整数，一般是16位 
+| BigInteger   | int或long不限制精度的整数 
+| Float        | float浮点数 
+| Numeric      | decimal.Decimal普通整数，一般是32位 
+| String       | str变长字符串 
+| Text         | str变长字符串，对较长或不限长度的字符串做了优化 
+| Unicode      | unicode变长Unicode字符串 
+| UnicodeText  | unicode变长Unicode字符串，对较长或不限长度的字符串做了优化 
+| Boolean      | bool布尔值 
+| Date         | datetime.date时间 
+| Time         | datetime.datetime日期和时间 
+| LargeBinary  | str二进制文件 
+| Enum         | enum枚举类型 
+
+字段选项
+
+| Command      | Description 
+| ------------ | :---------------
+| primary_key  | 如果为True，代表表的主键 
+| unique       | 如果为True，代表这列不允许出现重复的值 
+| index        | 如果为True，为这列创建索引，提高查询效率 
+| nullable     | 如果为True，允许有空值，如果为False，不允许有空值 
+| default      | 为这列定义默认值，如default=1 
+
+flask_sqlalchemy的db实例提供了创建数据库的方法，不过这个是把当前上下文的模型创建数据库，如果是大型项目，那么就是把所有模型创建数据库，它的使用也有局限性，一般做为外部使用（一个测试工具，在这个上下文中创建db实例，对指定的模型来创建表）。所以应该使用迁移工具来管理数据库。
+
+常用的过滤器
+
+| Command     | Description 
+| ----------- | :---------
+| filter()    | 把过滤器添加到原查询上，返回一个新查询 
+| filter_by() | 把等值过滤器添加到原查询上，返回一个新查询 
+| limit()     | 使用指定的值限定原查询返回的结果 
+| offset()    | 偏移原查询返回的结果，返回一个新查询 
+| order_by()  | 根据指定条件对原查询结果进行排序，返回一个新查询 
+| group_by()  | 根据指定条件对原查询结果进行分组，返回一个新查询 
+
+执行器
+
+| Command        | Description 
+| -------------- | :------------
+| all()          | 以列表形式返回查询的所有结果 
+| first()        | 返回查询的第一个结果，如果未查到，返回None 
+| first_or_404() | 返回查询的第一个结果，如果未查到，返回404 
+| get()          | 返回指定主键对应的行，如不存在，返回None 
+| get_or_404()   | 返回指定主键对应的行，如不存在，返回404 
+| count()        | 返回查询结果的数量 
+| paginate()     | 返回一个Paginate对象，它包含指定范围内的结果 

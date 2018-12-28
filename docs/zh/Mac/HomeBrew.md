@@ -25,3 +25,5 @@ mac 平台的包管理工具，官网地址[https://brew.sh/](https://brew.sh/)
 | brew home [name]              |       用浏览器打开，查看包的网页信息
 | brew options [name]           |       查看包的安装选项
 | brew services list            |       查看homebrew安装的服务情况
+| brew services start           |       启动服务，后面跟服务名称
+| brew services stop            |       停止服务，后面跟服务名称

@@ -119,7 +119,8 @@ module.exports = {
           children: [
             '/zh/HTML/css',
             '/zh/Web/http-protocol', '/zh/Web/RabbitMQ', 
-            '/zh/Web/Nginx', '/zh/Web/RESTFulAPI'
+            '/zh/Web/Nginx', '/zh/Web/RESTFulAPI', '/zh/Web/Redis',
+            '/zh/Web/Celery'
           ]
         },
         {

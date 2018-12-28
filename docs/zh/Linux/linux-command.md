@@ -104,3 +104,7 @@ mv [options] 源文件或目录 目标文件或目录
 
 - apt-get remove 会删除软件包而保留软件的配置文件
 - apt-get purge 会同时清除软件包和软件的配置文件
+
+## 查看端口
+
+`netstat -an | grep 3306`

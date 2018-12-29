@@ -148,7 +148,7 @@ module.exports = {
           title: 'Python工具',
           collapsable: true,
           children: [
-            '/zh/PythonUtil/'
+            '/zh/PythonUtil/', '/zh/PythonUtil/common_tool'
           ]
         },
         {

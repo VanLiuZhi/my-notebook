@@ -1764,3 +1764,38 @@ python3.3开始,types模块中引入了一个封装类名叫MappingProxyType，�
 </highlight-code>
 
 另外值得注意的是，类的 `__dict__` 属性也是mappingproxy的，之所以这么做是为了保证类级别的属性和方法只能是字符串，也帮助解释器更快的查找类级别的属性（因为它是字符串的）。类的属性是实例共享的，这也保证了类的统一性。所以你不应该设计这样的程序：通过`class.__dict__.update(dict()STATUS=0)`去修改类的属性，可以做的是修改实例的属性，记住创建实例会把类的属性复制一份给实例。
+
+## 利用偏函数设计程序
+
+偏函数是将所要承载的函数作为partial()函数的第一个参数，`原函数的各个参数依次作为partial()函数后续的参数`，除非使用关键字参数。
+
+<highlight-code lang='python'>
+
+    from functools import partial
+    
+    def mod( n, m ):
+        return n % m
+    
+    mod_by_100 = partial( mod, 100 ) 
+    
+    print mod( 100, 7 )  # 2
+    print mod_by_100( 7 )  # 2  mod(100, 7) 原函数的各个参数依次作为partial()函数后续的参数
+
+</highlight-code>
+
+进制转换
+
+<highlight-code lang='python'>
+
+    from functools import partial
+    
+    bin2dec = partial( int, base=2 )
+    print bin2dec( '0b10001' )  # 17
+    print bin2dec( '10001' )  # 17
+    
+    hex2dec = partial( int, base=16 )
+    print hex2dec( '0x67' )  # 103
+    print hex2dec( '67' )  # 103
+
+</highlight-code>
+

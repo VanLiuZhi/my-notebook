@@ -256,7 +256,71 @@ task的任务路径不能出错，在启动Worker进程的时候，可以看到t
 - `celery beat -A auto_app.celery --loglevel=info`
 - `celery worker -A auto_app.celery --loglevel=info`
 
+:::tip
+任务调度会有需要动态添加任务，管理任务的情况，Django框架通过djang-celery实现在管理后台创建，删除，更新任务，它通过自定义调度类来实现，如果有类似的需求，可以参考源码实现
+:::
+
+## 工作流
+
+Signature 对象，把任务通过签名的方法传递给其它任务，成为一个子任务
+
+```
+In [6]: task = signature('flask_app.celery_app.task.add', args=(2, 2), countdown=5)
+In [7]: task
+Out[7]: flask_app.celery_app.task.add(2, 2)
+In [8]: task.apply_async()
+Out[8]: <AsyncResult: 0cbe319e-c3f6-48b9-b1e4-6a034711cf3a>
+```
+
+`from celery import signature` 导入signature，可以看到，传递的第一个参数是已经存在的任务，也可以先把add导入，通过 `add.subtask((2, 2), countdown=5)`，或使用subtask的缩写s，add.s()。
+
+子任务能支持偏函数的方式，利用它实现工作流。
+
+支持原语实现工作流，原语表示由若干条指令组成的，用于完成一定功能的过程
+
+1. chain - 调用链，任务的链式执行，前面的执行结果作为参数传递给后面，直到任务完成
+
+chain 函数接受一个任务的列表，Celery 保证一个 chain 里的子任务会依次执行，在 AsynResult 上执行 get 会得到最后一个任务的返回值。和 link 功能类似，每一个任务执行结果会当作参数传入下一个任务，所以如果你不需要这种特性，采用 immutable signature 来取消。
+
+<highlight-code lang='python'>
+
+    def subtask():
+        from celery import chain
+        part = add.s(1, 2) | add.s(3) | add.s(5)
+        # or part = (add.s(1, 2), add.s(3), add.s(5))
+        res = chain(part)()
+        print(res.get())
+
+</highlight-code>
+
+2. group - 任务的并发执行
+
+<highlight-code lang='python'>
+
+    def subtask():
+        from celery import group
+        res = group([add.s(i, i) for i in range(1, 10)])()
+        print(res.get())
+
+</highlight-code>
+
+group 函数也接受一个任务列表，这些任务会同时加入到任务队列中，且执行顺序没有任何保证。在 AsynResult 上执行 get 会得到一个包含了所有返回值的列表。`意参数必须是list对象`
+
+3. chord - 带回调的 group
+
+chord 基本功能和 group 类似，只是有一个额外的回调函数。回调函数会在前面的任务全部结束时执行，其参数是一个包含了所有任务返回值的列表。在 AsynResult 上执行 get 会得到回调函数的返回值。
+
+4. map/starmap - 每个参数都作为任务的参数执行一遍
+
+5. chunks - 将任务分块
+
 ## 总结
 
-在启动Worker进程后，可以看到被装饰的任务已经被列出来了，这说明Celery有读取文件的机制(你可以在任务模块的最外层使用print测试)，被装饰的函数应该要在最外层，而且，创建实例后，再去修改配置，似乎没有生效（在我的测试中是这样的），其实这也符合逻辑，在进程被创建了，却又动态的去修改配置，与之对应的风险也很高
+在启动Worker进程后，可以看到被装饰的任务已经被列出来了，这说明Celery有读取文件的机制(你可以在任务模块的最外层使用print测试)，被装饰的函数应该要在最外层，而且，创建实例后，再去修改配置，似乎没有生效（在我的测试中是这样的），其实这也符合逻辑，在进程被创建了，却又动态的去修改配置，与之对应的风险也很高。
+
+celery是队列管理工具，真正的队列是Broker，更深入一点要了解RabbitMQ，AMQP协议，一般在celery上关注Worker，可以使用多个Worker，任务的生成使用定时器或触发的机制，任务本身就要由Python来编写，也包括对执行结果的处理。
+
+任务生成，处理有了，还有队列的管理，默认使用名为celery的队列，可以配置队列，比如队列A，队列B，进入A队列的任务优先级要高，会被先处理。可以在启动worker进程的时候指明队列(通过-Q指定队)，这样这个Worker只会处理指定的队列。
+
+后续扩展内容：celery信号，分析任务执行情况。Worker管理，监控和管理celery。
 

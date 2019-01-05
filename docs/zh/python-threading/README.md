@@ -394,6 +394,70 @@ dis.dis(foo)
 
 </highlight-code>
 
+## 同步原语
+
+控制多线程同时访问资源，包括互斥锁，信号量，条件变量，事件
+
+以房间为例子举例：
+
+有些房间最多只能容纳一个人。里面有人的时候，其他人就不能进去了。这代表一个线程使用某些共享内存时，其他线程必须等它结束，才能使用这一块内存。
+
+一个防止他人进入的简单方法，就是门口加一把锁。先到的人锁上门，后到的人看到上锁，就在门口排队，等锁打开再进去。这就叫互斥锁（Mutual exclusion，缩写 Mutex），防止多个线程同时读写某一块内存区域。
+
+还有些房间，可以同时容纳n个人。也就是说，如果人数大于n，多出来的人只能在外面等着。这好比某些内存区域，只能供给固定数目的线程使用。
+
+这时的解决方法，就是在门口挂n把钥匙。进去的人就取一把钥匙，出来时再把钥匙挂回原处。后到的人发现钥匙架空了，就知道必须在门口排队等着了。这种做法叫做信号量（Semaphore），用来保证多个线程不会互相冲突。
+
+不难看出，mutex是semaphore的一种特殊情况（n=1时）。也就是说，完全可以用后者替代前者。但是，因为mutex较为简单，且效率高，所以在必须保证资源独占的情况下，还是采用这种设计。
+
+### 信号量
+
+使用信号量做为同步机制，使用with进入上下文管理器，省略了acquire和release，信号量通过计数器来管理，这里计数器初始是3，获取acquire操作，计数器减1，release操作，计数器加1，当计数器为0的时候，阻塞其它线程的操作。
+
+通过执行结果可以看到，创建了5个线程，前3个线程 0，1，2 执行了 acquire操作，使得信号量为0，阻塞了其它线程，通过sleep模拟
+线程阻塞，等到线程 2 release的时候，线程 3 才执行 acquire 操作，4 线程也是等待 3 线程release后才执行 acquire。
+
+通过使用信号量，实现了只能有3个线程并发，而锁其实就是信号量为1的情况。
+
+<highlight-code lang='python'>
+
+    import time
+    from random import random
+    from threading import Thread, Semaphore
+
+    sema = Semaphore(3) # 创建信号量
+
+
+    def foo(tid):
+        with sema:
+            print(f'{tid} acquire sema')
+            time.sleep(random() * 2)
+        print(f'{tid} release sema')
+
+
+    threads = []
+
+    for i in range(5):
+        t = Thread(target=foo, args=(i,))
+        threads.append(t)
+        t.start()
+
+    for i in threads:
+        i.join()
+
+    # 0 acquire sema
+    # 1 acquire sema
+    # 2 acquire sema
+    # 2 release sema
+    # 3 acquire sema
+    # 3 release sema
+    # 4 acquire sema
+    # 1 release sema
+    # 0 release sema
+    # 4 release sema
+
+</highlight-code>
+
 ## 总结
 
 所以线程的执行结果是有很多因素影响的，在你用默认操作的时候，如果进行了IO密集任务或是CPU密集任务，IO密集在等待时会释放GIL，CPU密集也会执行一定数量的字节码后释放一下GIL，由于线程并发的切换是操作系统控制的，所以有这样的编程需求的时候，务必配合join，daemon等控制程序，不然什么时候切换，这是说不准的。

@@ -263,3 +263,74 @@ blocking和non-blocking的区别在哪，synchronous IO和asynchronous IO的区�
 关于异步阻塞：
 
 业务逻辑需要的是做完一件事后做另一件事，例如数据库连接初始化后才能开始接受用户的 HTTP 请求。这样的业务逻辑就需要调用者是以阻塞方式来工作。另外一种使用阻塞方式的理由是降低响应延迟。如果采用非阻塞方式，一个任务 A 被提交到后台，就开始做另一件事 B，但 B 还没做完，A 就完成了，这时要想让 A 的完成事件被尽快处理（比如 A 是个紧急事务），要么丢弃做到一半的 B，要么保存 B 的中间状态并切换回 A，任务的切换是需要时间的（不管是从磁盘载入到内存，还是从内存载入到高速缓存），这势必降低 A 的响应速度。因此，对实时系统或者延迟敏感的事务，有时采用阻塞方式比非阻塞方式更好。
+
+## 协程
+
+<highlight-code lang='python'>
+
+    def consumer():
+        while True:
+            v = yield
+            print(f'consume: {v}')
+
+
+    def producer(c):
+        for i in range(10, 13):
+            c.send(i)
+
+
+    c = consumer()
+    c.send(None)
+
+    producer(c)
+    c.close()
+
+</highlight-code>
+
+<highlight-code lang='python'>
+
+    def consumer():
+        r = ''
+        while True:
+            v = yield r
+            print(f'consume: {v}')
+            r = f'Result : {v * 2}'
+
+
+    def producer(c):
+        for i in range(10, 13):
+            print(f'Producing... {i}')
+            r = c.send(i)
+            print(f'Consumer return: {r}')
+
+
+    c = consumer()
+    c.send(None)
+
+    producer(c)
+    c.close()
+
+</highlight-code>
+
+<highlight-code lang='python'>
+
+    def framework(logic):
+        try:
+            it = logic()
+            s = next(it)
+            print(f'[FX] logic: {s}')
+            print(f'[FX] do something...')
+            it.send(f'async: {s}')
+        except StopIteration:
+            pass
+
+
+    def logic():
+        s = 'Logic'
+        r = yield s
+        print(r)
+
+
+    framework(logic)
+    
+</highlight-code>

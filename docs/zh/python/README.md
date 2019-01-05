@@ -62,6 +62,10 @@ inspect 作为Python的标准库，主要有以下作用：
 
 `super(Teacher,self).__init__(name,gender)` 和 `Person.__init__(self,name,gender)` 等价的，二者选一就好。
 
+:::tip
+在新的py3中，使用super变的简洁了，`super().__init__(name, gender)`，类的形式`Person.__init__(self,name,gender)`没变
+:::
+
 假如一个类C继承了类A和类B，类A和类B有不同的属性，并且类C在创建时要初始化这些属性，此时在类C的构造函数__init__中使用super(C，self).__init__调用就无法实现了
 
 <highlight-code lang='python'>

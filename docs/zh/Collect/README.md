@@ -13,6 +13,7 @@ sidebar: auto
 ## 后端
 
 [申请Let's Encrypt永久免费SSL证书(来自简书)](https://www.jianshu.com/p/3ae2f024c291)
+[Netlify 是一个提供网络托管的综合平台](https://app.netlify.com/)
 
 ## 前端
 
